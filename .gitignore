@@ -1,4 +1,5 @@
 *.env*
+.idea
 package-lock.json
 *.pem
 .env
@@ -6,7 +7,6 @@ clevis.json
 relayhttpprovider.env
 cloudfront.id.1
 cloudfront.id.2
-src/contracts/*
 deploy.network
 aws.json
 backend/redisdata
@@ -14,16 +14,10 @@ accounts.json
 **.DS_*
 *.log
 *.ens
-*/*/*.abi
-*/*/*.bytecode
-*/*/*.address
 */*/*.run.xml
 */*/*.log.*
 */*/*.blockNumber
-*/*.abi
-*/*.bytecode
 */*.bib
-*/*.address
 */*.run.xml
 */*.log.*
 */*.blockNumber
@@ -37,10 +31,9 @@ public/reload.txt
 **/*.head.address
 **/*.previous.address
 **/*.compiled
-**/*.bytecode
-**/*.abi
-**/*.address
-src/contracts
+contracts/**/*.bytecode
+contracts/**/*.abi
+contracts/**/*.address
 deploy.log
 public/reload.txt
 geth.log
