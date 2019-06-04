@@ -53,16 +53,6 @@ export default class SendBadge extends React.Component {
         this.scrollToBottom()
       },30)
     }
-    if(key=="toAddress"&&value.indexOf(".eth")>=0){
-      console.log("Attempting to look up ",value)
-      let addr = await this.props.ensLookup(value)
-      console.log("Resolved:",addr)
-      if(addr!="0x0000000000000000000000000000000000000000"){
-        this.setState({toAddress:addr,fromEns:value},()=>{
-          this.setState({ canSend: this.canSend() })
-        })
-      }
-    }
   };
   scrollToBottom(){
     console.log("scrolling to bottom")

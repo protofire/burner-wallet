@@ -46,6 +46,7 @@ import RNMessageChannel from 'react-native-webview-messaging';
 
 
 import bufficorn from './bufficorn.png';
+import protofire from './protofire.png';
 import cypherpunk from './cypherpunk.png';
 import eth from './ethereum.png';
 import dai from './dai.jpg';
@@ -90,18 +91,16 @@ if (window.location.hostname.indexOf("localhost") >= 0 || window.location.hostna
   XDAI_PROVIDER = "http://localhost:8545"
   WEB3_PROVIDER = "http://localhost:8545";
   CLAIM_RELAY = 'http://localhost:18462'
-  if(true){
+  if(false){
     ERC20NAME = false
     ERC20TOKEN = false
     ERC20IMAGE = false
   }else{
-    ERC20NAME = 'BUFF'
-    ERC20VENDOR = 'VendingMachine'
+    ERC20NAME = 'Proto'
     ERC20TOKEN = 'ERC20Vendable'
-    ERC20IMAGE = bufficorn
-    XDAI_PROVIDER = "http://localhost:8545"
-    WEB3_PROVIDER = "http://localhost:8545";
-    LOADERIMAGE = bufficorn
+    ERC20IMAGE = protofire
+    WEB3_PROVIDER = POA_XDAI_NODE
+    LOADERIMAGE = protofire
   }
 
 }
@@ -150,17 +149,23 @@ else if (window.location.hostname.indexOf("burnerwithrelays") >= 0) {
   ERC20NAME = false
   ERC20TOKEN = false
   ERC20IMAGE = false
+} else {
+  ERC20NAME = 'Proto'
+  ERC20TOKEN = 'ERC20Vendable'
+  ERC20IMAGE = protofire
+  WEB3_PROVIDER = POA_XDAI_NODE
+  LOADERIMAGE = protofire
 }
 
 
-if(ERC20NAME=="BUFF"){
+if(ERC20NAME=="Proto"){
   mainStyle.backgroundImage = "linear-gradient(#540d48, #20012d)"
   mainStyle.backgroundColor = "#20012d"
   mainStyle.mainColor = "#b6299e"
   mainStyle.mainColorAlt = "#de3ec3"
-  title = "BuffiDai.io"
+  title = "Proto"
   titleImage = (
-    <img src={bufficorn} style={{
+    <img src={protofire} style={{
       maxWidth:50,
       maxHeight:50,
       marginRight:15,
@@ -362,7 +367,6 @@ class App extends Component {
     })
   }
   componentDidMount(){
-
     document.body.style.backgroundColor = mainStyle.backgroundColor
 
     Wyre.configure();
@@ -452,46 +456,11 @@ class App extends Component {
 
     let badgeBalance = 0
     let singleBadgeId
-    if(this.state.contracts&&(this.state.network=="xDai"||this.state.network=="Unknown") && this.state.contracts.Badges){
-      //check for badges for this user
-      badgeBalance = await this.state.contracts.Badges.balanceOf(this.state.account).call()
-      if(badgeBalance>0){
-        let update = false
-        for(let b = 0;b<badgeBalance;b++){
-          let thisBadgeId = await this.state.contracts.Badges.tokenOfOwnerByIndex(this.state.account,b).call()
-          singleBadgeId = thisBadgeId
-          if(!this.state.badges[thisBadgeId]){
-
-            let thisBadgeData = await this.state.contracts.Badges.tokenURI(thisBadgeId).call()
-            //console.log("BADGE",b,thisBadgeId,thisBadgeData)
-            if(!this.state.badges[thisBadgeId]){
-              console.log("Getting badge data ",thisBadgeData)
-              let response = axios.get(thisBadgeData).then((response)=>{
-                console.log("RESPONSE:",response)
-                if(response && response.data){
-                  this.state.badges[thisBadgeId] = response.data
-                  this.state.badges[thisBadgeId].id = thisBadgeId
-                  update=true
-                }
-              })
-
-            }
-          }
-        }
-        if(update){
-          //console.log("Saving badges state...")
-          this.setState({badges:this.state.badges})
-        }
-
-      }
-
-    }
-
 
     //console.log(">>>>>>> <<< >>>>>> Looking into iframe...")
     //console.log(document.getElementById('galleassFrame').contentWindow['web3'])
 
-    if(ERC20TOKEN&&this.state.contracts&&(this.state.network=="xDai"||this.state.network=="Unknown")){
+    if(ERC20TOKEN&&this.state.contracts){
       let gasBalance = await this.state.web3.eth.getBalance(this.state.account)
       gasBalance = this.state.web3.utils.fromWei(""+gasBalance,'ether')
       //console.log("Getting balanceOf "+this.state.account+" in contract ",this.state.contracts[ERC20TOKEN])
@@ -500,36 +469,13 @@ class App extends Component {
       tokenBalance = this.state.web3.utils.fromWei(""+tokenBalance,'ether')
 
       //console.log("Getting admin from ",this.state.contracts[ERC20VENDOR])
-      let isAdmin = await this.state.contracts[ERC20VENDOR].isAdmin(this.state.account).call()
+      let isAdmin = false//await this.state.contracts[ERC20VENDOR].isAdmin(this.state.account).call()
       //console.log("ISADMIN",this.state.account,isAdmin)
-      let isVendor = await this.state.contracts[ERC20VENDOR].vendors(this.state.account).call()
+      let isVendor = { isAllowed: false } //await this.state.contracts[ERC20VENDOR].vendors(this.state.account).call()
       //console.log("isVendor",isVendor)
 
       let vendorObject = this.state.vendorObject
       let products = []//this.state.products
-      if(isVendor.isAllowed){
-        //console.log("LOADING VENDOR PRODUCTS")
-        let id = 0
-        if(!vendorObject){
-          let vendorData = await this.state.contracts[ERC20VENDOR].vendors(this.state.account).call()
-          //console.log("vendorData",vendorData)
-          vendorData.name = this.state.web3.utils.hexToUtf8(vendorData.name)
-          vendorObject = vendorData
-        }
-        //console.log("Looking up products for vendor ",this.state.account)
-        if(!products){
-          products = []
-        }
-        let found = true
-        while(found){
-          let nextProduct = await this.state.contracts[ERC20VENDOR].products(this.state.account,id).call()
-          if(nextProduct.exists){
-            products[id++] = nextProduct
-          }else{
-            found=false
-          }
-        }
-      }
       //console.log("isVendor",isVendor,"SAVING PRODUCTS",products)
 
       this.setState({gasBalance:gasBalance,balance:tokenBalance,isAdmin:isAdmin,isVendor:isVendor,hasUpdateOnce:true,vendorObject,products})
@@ -559,6 +505,7 @@ class App extends Component {
 
 
       }
+
       if(this.state.xdaiweb3){
         xdaiBalance = await this.state.xdaiweb3.eth.getBalance(this.state.account)
         xdaiBalance = this.state.xdaiweb3.utils.fromWei(""+xdaiBalance,'ether')
@@ -1278,26 +1225,6 @@ render() {
                     block={this.state.block}
                     filter={{to:this.state.account}}
                     onUpdate={(eventData,allEvents)=>{this.setState({transferToWithData:allEvents},this.syncFullTransactions)}}
-                  />
-                  <Events
-                    config={{hide:true}}
-                    contract={this.state.contracts[ERC20VENDOR]}
-                    eventName={"UpdateVendor"}
-                    block={this.state.block}
-                    onUpdate={(vendor, all)=>{
-                      let {vendors} = this.state
-                      console.log("VENDOR",vendor)
-                      if(!vendors[vendor.vendor] || vendors[vendor.vendor].blockNumber<vendor.blockNumber){
-                        vendors[vendor.vendor] = {
-                          name: this.state.web3.utils.hexToUtf8(vendor.name),
-                          isAllowed: vendor.isAllowed,
-                          isActive: vendor.isActive,
-                          vendor: vendor.vendor,
-                          blockNumber: vendor.blockNumber
-                        }
-                      }
-                      this.setState({vendors})
-                    }}
                   />
                 </div>
               )
