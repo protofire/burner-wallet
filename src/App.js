@@ -1252,20 +1252,6 @@ class App extends Component {
               )
             }
 
-            let badgeDisplay = ""
-            if (this.state.badgeBalance > 0) {
-              badgeDisplay = (
-                <React.Fragment>
-                  <Badges
-                    badges={this.state.badges}
-                    address={account}
-                    selectBadge={this.selectBadge.bind(this)}
-                  />
-                  <Ruler />
-                </React.Fragment>
-              )
-            }
-
             switch (view) {
               case 'main':
                 return (
@@ -1281,9 +1267,6 @@ class App extends Component {
                         <Balance icon={dai} selected={selected} text={"DAI"} amount={this.state.daiBalance} address={account} dollarDisplay={dollarDisplay} />
                         <Balance icon={eth} selected={selected} text={"ETH"} amount={parseFloat(this.state.ethBalance) * parseFloat(this.state.ethprice)} address={account} dollarDisplay={dollarDisplay} />
                       </div>
-
-                      {badgeDisplay}
-
                       <RecentTransactions
                         ERC20TOKEN={ERC20TOKEN}
                         address={account}

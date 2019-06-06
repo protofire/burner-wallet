@@ -1,0 +1,26 @@
+@import '../helpers/variables';
+
+.sw-TransactionsList {
+  padding: 0 $main-wrapper-padding;
+}
+
+.sw-TransactionsList-Item {
+  align-items: center;
+  border-bottom: solid 1px #e3e3e3;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+
+  &:focus,
+  &:active {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+.sw-TransactionsList-Title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.33;
+  margin: 0 0 5px;
+  color: #000;
+}
