@@ -1,0 +1,9 @@
+@import '../helpers/variables';
+
+.sw-Header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 20px;
+    padding: 15px $main-wrapper-padding 0;
+    width: 100%;
+}

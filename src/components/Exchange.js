@@ -3,16 +3,12 @@ import Ruler from "./Ruler";
 import Blockies from 'react-blockies';
 import { Scaler } from "dapparatus";
 
-//import wyre from '../wyre.jpg';
-//import coinbase from '../coinbase.jpg';
-//import localeth from '../localeth.png';
-
 import Web3 from 'web3';
 import axios from "axios"
 import i18n from '../i18n';
 
 import Wyre from '../services/wyre';
-import wyrelogo from '../wyre.png';
+import wyrelogo from '../assets/img/wyre.png';
 
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';

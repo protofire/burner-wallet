@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import QrReader from "react-qr-reader";
 import FileReaderInput from 'react-file-reader-input';
+import QrReader from "react-qr-reader";
 import RNMessageChannel from 'react-native-webview-messaging';
-import qrimage from '../qrcode.png';
+import React, { Component } from "react";
 import i18n from "../i18n";
+import qrimage from '../assets/img/qrcode.png';
 
 function base64ToBitmap(base64) {
   return new Promise((resolve, reject) => {

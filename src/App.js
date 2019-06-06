@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { ContractLoader, Dapparatus, Transactions, Gas, Address, Events } from "dapparatus";
+import { ContractLoader, Dapparatus, Transactions, Gas, Events } from "dapparatus";
 import Web3 from 'web3';
 import axios from 'axios';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import gasless from 'tabookey-gasless';
-// import './App.scss';
 import Header from './components/Header';
 import NavCard from './components/NavCard';
 import SendByScan from './components/SendByScan';
@@ -18,6 +17,7 @@ import Receive from './components/Receive'
 import Share from './components/Share'
 import ShareLink from './components/ShareLink'
 import Balance from "./components/Balance";
+import MainToken from "./components/MainToken";
 import Badges from "./components/Badges";
 import Ruler from "./components/Ruler";
 import Receipt from "./components/Receipt";
@@ -25,7 +25,6 @@ import CashOut from "./components/CashOut";
 import MainCard from './components/MainCard';
 import History from './components/History';
 import Advanced from './components/Advanced';
-import BottomLinks from './components/BottomLinks';
 import MoreButtons from './components/MoreButtons';
 import Admin from './components/Admin';
 import Vendor from './components/Vendor';
@@ -33,25 +32,25 @@ import Vendors from './components/Vendors';
 import RecentTransactions from './components/RecentTransactions';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
-import burnerlogo from './burnerwallet.png';
 import BurnWallet from './components/BurnWallet'
 import Exchange from './components/Exchange'
 import Bottom from './components/Bottom';
-import customRPCHint from './customRPCHint.png';
 import namehash from 'eth-ens-namehash'
 import incogDetect from './services/incogDetect.js'
+import Wyre from './services/wyre';
 
 //https://github.com/lesnitsky/react-native-webview-messaging/blob/v1/examples/react-native/web/index.js
 import RNMessageChannel from 'react-native-webview-messaging';
 
-
-import bufficorn from './bufficorn.png';
-import protofire from './protofire.png';
-import cypherpunk from './cypherpunk.png';
-import eth from './ethereum.png';
-import dai from './dai.jpg';
-import xdai from './xdai.jpg';
-import Wyre from './services/wyre';
+import bufficorn from './assets/img/bufficorn.png';
+import burnerlogo from './assets/img/burnerwallet.png';
+import customRPCHint from './assets/img/customRPCHint.png';
+import cypherpunk from './assets/img/cypherpunk.png';
+import dai from './assets/img/dai.jpg';
+import eth from './assets/img/ethereum.png';
+import protofire from './assets/img/protofire.png';
+import mainToken from './assets/img/image-3@3x.jpg';
+import xdai from './assets/img/xdai.jpg';
 
 let base64url = require('base64url')
 const EthCrypto = require('eth-crypto');
@@ -170,7 +169,7 @@ if (ERC20NAME == "Proto") {
       maxHeight: 50,
       marginRight: 15,
       marginTop: -10
-    }} />
+    }} alt="" />
   )
 } else if (ERC20NAME == "BURN") {
   mainStyle.backgroundImage = "linear-gradient(#4923d8, #6c0664)"
@@ -184,15 +183,8 @@ if (ERC20NAME == "Proto") {
       maxHeight: 50,
       marginRight: 15,
       marginTop: -10
-    }} />
+    }} alt="" />
   )
-}
-
-
-let innerStyle = {
-  maxWidth: 740,
-  margin: '0 auto',
-  textAlign: 'left'
 }
 
 let buttonStyle = {
@@ -209,11 +201,6 @@ let buttonStyle = {
     whiteSpace: "nowrap",
     cursor: "pointer",
   }
-}
-
-const invLogoStyle = {
-  maxWidth: 50,
-  maxHeight: 50,
 }
 
 let metaReceiptTracker = {}
@@ -1098,8 +1085,6 @@ class App extends Component {
           {extraHead}
           {networkOverlay}
           {web3_setup}
-
-          {header}
           {web3 /*&& this.checkNetwork()*/ && (() => {
             let moreButtons = (
               <MoreButtons
@@ -1119,7 +1104,6 @@ class App extends Component {
                   </div>
                 )
               }
-
 
               if (this.state.isAdmin) {
                 moreButtons = (
@@ -1216,15 +1200,14 @@ class App extends Component {
               }
             }
 
-
-            if (view.indexOf("account_") == 0) {
-
+            if (view.indexOf("account_") === 0) {
               let targetAddress = view.replace("account_", "")
+
               console.log("TARGET", targetAddress)
+
               return (
                 <React.Fragment>
                   <div className="main-card card w-100" style={{ zIndex: 1 }}>
-
                     <NavCard title={(
                       <div>
                         {i18n.t('history_chat')}
@@ -1258,23 +1241,15 @@ class App extends Component {
             }
 
             let selected = "xDai"
-            let extraTokens = ""
             let defaultBalanceDisplay = (
-              <React.Fragment>
-                <Balance icon={xdai} selected={false} text={"xdai"} amount={this.state.xdaiBalance} address={account} dollarDisplay={dollarDisplay} />
-                <Ruler />
-              </React.Fragment>
+              <MainToken icon={xdai} selected={false} text={"xdai"} amount={this.state.xdaiBalance} address={account} dollarDisplay={dollarDisplay} />
             )
 
             if (ERC20TOKEN) {
               selected = ERC20NAME
-              extraTokens = (
-                <React.Fragment>
-                  <Balance icon={ERC20IMAGE} selected={selected} text={ERC20NAME} amount={this.state.balance} address={account} dollarDisplay={dollarDisplay} />
-                  <Ruler />
-                </React.Fragment>
+              defaultBalanceDisplay = (
+                <MainToken icon={mainToken} selected={selected} text={ERC20NAME} amount={this.state.balance} address={account} dollarDisplay={dollarDisplay} />
               )
-              defaultBalanceDisplay = extraTokens
             }
 
             let badgeDisplay = ""
@@ -1295,15 +1270,20 @@ class App extends Component {
               case 'main':
                 return (
                   <React.Fragment>
-                    <div className="main-card card w-100" style={{ zIndex: 1 }}>
-                      {extraTokens}
-                      <Balance icon={xdai} selected={selected} text={"xDai"} amount={this.state.xdaiBalance} address={account} dollarDisplay={dollarDisplay} />
-                      <Ruler />
-                      <Balance icon={dai} selected={selected} text={"DAI"} amount={this.state.daiBalance} address={account} dollarDisplay={dollarDisplay} />
-                      <Ruler />
-                      <Balance icon={eth} selected={selected} text={"ETH"} amount={parseFloat(this.state.ethBalance) * parseFloat(this.state.ethprice)} address={account} dollarDisplay={dollarDisplay} />
-                      <Ruler />
+                    <div className="sw-ScrollingWrapper">
+                      <div className="sw-Header">
+                        {header}
+                        <div className="sw-BtnSettings" onClick={() => { this.changeView('advanced') }} />
+                      </div>
+                      {defaultBalanceDisplay}
+                      <div className="sw-BalanceItemsRow">
+                        <Balance icon={xdai} selected={"xDai"} text={"xDai"} amount={this.state.xdaiBalance} address={account} dollarDisplay={dollarDisplay} />
+                        <Balance icon={dai} selected={selected} text={"DAI"} amount={this.state.daiBalance} address={account} dollarDisplay={dollarDisplay} />
+                        <Balance icon={eth} selected={selected} text={"ETH"} amount={parseFloat(this.state.ethBalance) * parseFloat(this.state.ethprice)} address={account} dollarDisplay={dollarDisplay} />
+                      </div>
+
                       {badgeDisplay}
+
                       <RecentTransactions
                         ERC20TOKEN={ERC20TOKEN}
                         address={account}
@@ -1316,13 +1296,6 @@ class App extends Component {
                         view={this.state.view}
                       />
                     </div>
-                    <Bottom
-                      icon={"wrench"}
-                      text={i18n.t('advance_title')}
-                      action={() => {
-                        this.changeView('advanced')
-                      }}
-                    />
                     <MainCard
                       ERC20TOKEN={ERC20TOKEN}
                       address={account}

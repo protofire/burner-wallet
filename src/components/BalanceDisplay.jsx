@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import eth from '../ethereum.png';
+import eth from '../assets/img/ethereum.png';
 import i18n from '../i18n';
 
 export default class BalanceDisplay extends React.Component {

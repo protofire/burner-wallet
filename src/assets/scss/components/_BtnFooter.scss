@@ -1,35 +1,35 @@
 .ft-BtnFooter {
-    align-items: center;
-    background: transparent;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0;
-    outline: none;
-    padding: 0;
+  align-items: center;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  outline: none;
+  padding: 0;
 
-    &:focus,
-    &:active {
-        opacity: 0.6;
-    }
+  &:focus,
+  &:active {
+    opacity: 0.6;
+  }
 }
 
 .ft-BtnFooter-Icon {
-    align-items: center;
-    display: flex;
-    height: 24px;
-    margin-bottom: 4px;
+  align-items: center;
+  display: flex;
+  height: 24px;
+  margin-bottom: 4px;
 
-    svg {
-        fill: #666;
-    }
+  svg {
+    fill: #666;
+  }
 }
 
 .ft-BtnFooter-Text {
-    color: #666;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.2;
-    text-align: center;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
 }

@@ -1,0 +1,39 @@
+$main-content-width: 170px;
+
+.sw-MainToken {
+  margin: 0 0 20px;
+}
+
+.sw-MainToken-Content {
+  margin: 0 auto;
+  width: $main-content-width;
+}
+
+.sw-MainToken-Image {
+  background-color: #fff;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  border: solid 1px #f4f4f4;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.12);
+  height: $main-content-width;
+  margin-bottom: 10px;
+  width: $main-content-width;
+}
+
+.sw-MainToken-Amount {
+    color: #000;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.sw-MainToken-Name {
+    color: #868686;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+}
