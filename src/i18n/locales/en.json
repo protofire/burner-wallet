@@ -23,6 +23,7 @@
     "request_funds_title": "Request funds",
     "request": "Request",
     "vendors": "Vendors",
+    "sell": "Sell",
     "main_card": {
       "receive": "Receive",
       "send": "Send",
@@ -62,7 +63,8 @@
     },
     "more_buttons": {
       "request": "Request",
-      "exchange": "Exchange"
+      "exchange": "Exchange",
+      "sell": "Sell"
     },
     "receive": {
       "address_copied": "Address copied to clipboard"

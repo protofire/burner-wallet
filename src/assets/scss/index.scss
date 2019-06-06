@@ -1,0 +1,12 @@
+// base stuff
+// @import "helpers/index";
+@import "base/index";
+
+// legacy
+// @import "base";
+// @import "app";
+
+// components
+@import "components/MainContainer";
+@import "components/Footer";
+@import "components/BtnFooter";

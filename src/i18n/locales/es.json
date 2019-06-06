@@ -21,6 +21,7 @@
     "request_funds_title": "Solicitar Fondos",
     "request": "Solicitar",
     "vendors": "Vendedores",
+    "sell": "Vender",
     "main_card": {
       "receive": "Recibir",
       "send": "Enviar",
@@ -60,7 +61,8 @@
     },
     "more_buttons": {
       "request": "Solicitar",
-      "exchange": "Intercambio"
+      "exchange": "Intercambio",
+      "sell": "Vender"
     },
     "receive": {
       "address_copied": "Dirección copiada"

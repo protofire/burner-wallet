@@ -1,0 +1,15 @@
+@import "../helpers/variables";
+
+.sw-Footer {
+  background-color: #fff;
+  bottom: 0;
+  box-shadow: 0 -3px 5px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  height: $footer-height;
+  justify-content: space-between;
+  left: 0;
+  padding: 0 25px;
+  position: absolute;
+  width: 100%;
+  z-index: 1234;
+}
