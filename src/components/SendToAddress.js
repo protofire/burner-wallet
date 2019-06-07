@@ -2,7 +2,6 @@ import ModalHeader from './ModalHeader'
 import React from 'react'
 import cookie from 'react-cookies'
 import i18n from '../i18n'
-import { scroller } from 'react-scroll'
 
 const queryString = require('query-string')
 const qrIcon = () => {
@@ -79,10 +78,6 @@ export default class SendToAddress extends React.Component {
     window.history.pushState({}, '', '/')
   }
 
-  componentDidMount = () => {
-    this.addressInput.blur()
-  }
-
   updateState = async (key, value) => {
     if (key === 'amount') {
       cookie.save('sendToStartAmount', value, { path: '/', maxAge: 60 })
@@ -102,9 +97,8 @@ export default class SendToAddress extends React.Component {
       this.setState({ fromEns: '' })
     }
     if (key === 'toAddress' && value.indexOf('.eth') >= 0) {
-      console.log('Attempting to look up ', value)
       let addr = await this.props.ensLookup(value)
-      console.log('Resolved:', addr)
+
       if (addr !== '0x0000000000000000000000000000000000000000') {
         this.setState({ toAddress: addr, fromEns: value }, () => {
           if (key !== 'message') {
@@ -114,38 +108,20 @@ export default class SendToAddress extends React.Component {
       }
     }
   }
+
   bounceToAmountIfReady() {
     if (this.state.toAddress && this.state.toAddress.length === 42) {
       this.amountInput.focus()
     }
   }
+
   componentDidMount() {
+    this.addressInput.blur()
     this.setState({ canSend: this.canSend() })
-    setTimeout(() => {
-      if (!this.state.toAddress && this.addressInput) {
-        this.addressInput.focus()
-      } else if (!this.state.amount && this.amountInput) {
-        this.amountInput.focus()
-      } else if (this.messageInput) {
-        this.messageInput.focus()
-        setTimeout(() => {
-          this.scrollToBottom()
-        }, 30)
-      }
-    }, 350)
   }
 
   canSend() {
     return this.state.toAddress && this.state.toAddress.length === 42 && (this.state.amount > 0 || this.state.message)
-  }
-
-  scrollToBottom() {
-    console.log('scrolling to bottom')
-    scroller.scrollTo('theVeryBottom', {
-      duration: 500,
-      delay: 30,
-      smooth: 'easeInOutCubic'
-    })
   }
 
   send = async () => {
@@ -170,7 +146,6 @@ export default class SendToAddress extends React.Component {
       )
 
       if (!ERC20TOKEN && parseFloat(this.props.balance) <= 0) {
-        console.log('No funds!?!', ERC20TOKEN, parseFloat(this.props.balance))
         this.props.changeAlert({ type: 'warning', message: 'No Funds.' })
       } else if (!ERC20TOKEN && parseFloat(this.props.balance) - 0.0001 <= parseFloat(amount)) {
         let extraHint = ''

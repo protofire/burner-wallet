@@ -1,0 +1,59 @@
+.md-Request-Form {
+  margin-top: 30px;
+}
+
+.md-Request-MainToken {
+    padding-bottom: 40px;
+}
+
+.md-Request-QR {
+  border: 2px solid #000;
+  height: 204px;
+  margin: 0 auto 40px;
+  padding: 15px;
+  width: 204px;
+
+  canvas {
+    width: 170px !important;
+    height: 170px !important;
+  }
+}
+
+.md-Request-Address {
+  display: flex;
+  margin-bottom: 30px;
+  padding: 0 45px;
+
+  &:active,
+  &:focus {
+    opacity: 0.6;
+  }
+}
+
+.md-Request-AddressText {
+  color: #000;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-right: 10px;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.md-Request-Amount {
+  color: #000;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.md-Request-Message {
+  color: #000;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 30px;
+  text-align: center;
+}

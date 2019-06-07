@@ -17,12 +17,15 @@
 }
 
 .md-ModalHeader-Action {
+  background-color: transparent;
+  border: none;
   color: #000;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2;
   outline: none;
-  text-align: right;
+  padding: 0;
+  text-align: center;
 
   &[disabled] {
     opacity: 0.3;
