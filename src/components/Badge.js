@@ -1,6 +1,4 @@
 import React from 'react'
-import Blockies from 'react-blockies'
-import { Scaler } from 'dapparatus'
 
 export default ({ id, angle, image, selectBadge, large }) => {
   let displayAngle = 28

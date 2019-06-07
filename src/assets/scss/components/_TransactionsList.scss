@@ -19,6 +19,18 @@ $avatar-dimensions: 30px;
   }
 }
 
+.sw-TransactionsList-ItemMainInfo {
+  flex-grow: 1;
+}
+
+.sw-TransactionsList-ItemMessage {
+  color: #999;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.29;
+  text-align: left;
+}
+
 .sw-TransactionsList-ItemAvatar {
   align-items: center;
   border-radius: 50%;

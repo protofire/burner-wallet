@@ -1,6 +1,4 @@
 import React from 'react'
-import Blockies from 'react-blockies'
-import { Scaler } from 'dapparatus'
 import StackGrid from 'react-stack-grid'
 import Badge from './Badge'
 export default ({ badges, address, selectBadge }) => {

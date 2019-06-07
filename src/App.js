@@ -646,7 +646,6 @@ class App extends Component {
           this.setState({ claimed: true })
           setTimeout(() => {
             this.setState({ sending: false }, () => {
-              //alert("DONE")
               window.location = '/'
             })
           }, 2000)
@@ -660,7 +659,6 @@ class App extends Component {
         this.changeAlert({ type: 'danger', message: 'Sorry. Failed to claim. Already claimed?' })
         setTimeout(() => {
           this.setState({ sending: false }, () => {
-            //alert("DONE")
             window.location = '/'
           })
         }, 2000)
@@ -673,11 +671,9 @@ class App extends Component {
     this.forceUpdate()
   }
   async relayClaim() {
-    console.log('DOING CLAIM THROUGH RELAY')
     let fund = await this.state.contracts.Links.funds(this.state.claimId).call()
     if (parseInt(fund[5].toString()) > 0) {
       this.setState({ fund: fund })
-      console.log('FUND: ', fund)
 
       let claimHash = this.state.web3.utils.soliditySha3(
         { type: 'bytes32', value: this.state.claimId }, // fund id
@@ -685,15 +681,9 @@ class App extends Component {
         { type: 'uint256', value: fund[5] }, // nonce
         { type: 'address', value: this.state.contracts.Links._address } // contract address
       )
-      console.log('claimHash', claimHash)
-      console.log('this.state.claimKey', this.state.claimKey)
+
       let sig = this.state.web3.eth.accounts.sign(claimHash, this.state.claimKey)
       sig = sig.signature
-      /* getGasPrice() is not implemented on Metamask, leaving the code as reference. */
-      //this.state.web3.eth.getGasPrice()
-      //.then((gasPrice) => {
-
-      console.log('CLAIM TX:', this.state.claimId, sig, claimHash, this.state.account)
 
       this.setState({ sending: true })
       let relayClient = new gasless.RelayClient(this.state.web3)
@@ -701,18 +691,14 @@ class App extends Component {
       if (this.state.metaAccount && this.state.metaAccount.privateKey) {
         relayClient.useKeypairForSigning(this.state.metaAccount)
       }
-      console.log('Calling encodeABU on Links.claim() ', this.state.claimId, sig, claimHash, this.state.account)
+
       let claimData = this.state.contracts.Links.claim(
         this.state.claimId,
         sig,
         claimHash,
         this.state.account
       ).encodeABI()
-      //let network_gas_price = await this.state.web3.eth.getGasPrice();
-      // Sometimes, xDai network returns '0'
-      //if (!network_gas_price || network_gas_price == 0) {
-      //  network_gas_price = 222222222222; // 222.(2) gwei
-      //}
+
       let options = {
         from: this.state.account,
         to: this.state.contracts.Links._address,
@@ -726,20 +712,14 @@ class App extends Component {
         this.setState({ claimed: true })
         setTimeout(() => {
           this.setState({ sending: false }, () => {
-            //alert("DONE")
             window.location = '/'
           })
         }, 2000)
       })
-      //})
-      //.catch((error) => {
-      //  console.log(error); //Get Gas price promise
-      //});
     } else {
       this.changeAlert({ type: 'danger', message: 'Sorry. Failed to claim. Already claimed?' })
       setTimeout(() => {
         this.setState({ sending: false }, () => {
-          //alert("DONE")
           window.location = '/'
         })
       }, 2000)
@@ -751,25 +731,12 @@ class App extends Component {
     this.setState({ receipt: obj })
   }
   changeView = (view, cb) => {
-    if (view == 'exchange' || view == 'main' /*||view.indexOf("account_")==0*/) {
+    if (view === 'exchange' || view === 'main') {
       localStorage.setItem('view', view) //some pages should be sticky because of metamask reloads
       localStorage.setItem('viewSetTime', Date.now())
     }
-    /*if (view.startsWith('send_with_link')||view.startsWith('send_to_address')) {
-    console.log("This is a send...")
-    console.log("BALANCE",this.state.balance)
-    if (this.state.balance <= 0) {
-    console.log("no funds...")
-    this.changeAlert({
-    type: 'danger',
-    message: 'Insufficient funds',
-  });
-  return;
-}
-}
-*/
+
     this.changeAlert(null)
-    console.log('Setting state', view)
     this.setState({ view, scannerState: false }, cb)
   }
   changeAlert = (alert, hide = true) => {
@@ -1230,39 +1197,25 @@ class App extends Component {
 
               if (view.indexOf('account_') === 0) {
                 let targetAddress = view.replace('account_', '')
-
-                console.log('TARGET', targetAddress)
-
                 return (
-                  <React.Fragment>
-                    <div className="main-card card w-100" style={{ zIndex: 1 }}>
-                      <NavCard title={<div>{i18n.t('history_chat')}</div>} goBack={this.goBack.bind(this)} />
-                      {defaultBalanceDisplay}
-                      <History
-                        buttonStyle={buttonStyle}
-                        metaAccount={this.state.metaAccount}
-                        saveKey={this.saveKey.bind(this)}
-                        transactionsByAddress={
-                          ERC20TOKEN ? this.state.fullTransactionsByAddress : this.state.transactionsByAddress
-                        }
-                        address={account}
-                        balance={balance}
-                        block={this.state.block}
-                        changeAlert={this.changeAlert}
-                        changeView={this.changeView}
-                        dollarDisplay={dollarDisplay}
-                        goBack={this.goBack.bind(this)}
-                        send={this.state.send}
-                        target={targetAddress}
-                        web3={this.state.web3}
-                      />
-                    </div>
-                    <Bottom
-                      action={() => {
-                        this.changeView('main')
-                      }}
-                    />
-                  </React.Fragment>
+                  <History
+                    metaAccount={this.state.metaAccount}
+                    saveKey={this.saveKey.bind(this)}
+                    transactionsByAddress={
+                      ERC20TOKEN ? this.state.fullTransactionsByAddress : this.state.transactionsByAddress
+                    }
+                    address={account}
+                    balance={balance}
+                    block={this.state.block}
+                    changeAlert={this.changeAlert}
+                    changeView={this.changeView}
+                    close={this.goBack.bind(this)}
+                    dollarDisplay={dollarDisplay}
+                    goBack={this.goBack.bind(this)}
+                    send={this.state.send}
+                    target={targetAddress}
+                    web3={this.state.web3}
+                  />
                 )
               }
 
@@ -1780,7 +1733,6 @@ class App extends Component {
                 case 'vendors':
                   return (
                     <React.Fragment>
-                      >
                       <div className="main-card card w-100" style={{ zIndex: 1 }}>
                         <NavCard title={i18n.t('vendors')} goBack={this.goBack.bind(this)} />
                         <Vendors

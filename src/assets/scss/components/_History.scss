@@ -1,0 +1,44 @@
+$avatar-dimensions: 60px;
+
+.md-History-AvatarWrapper {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-shrink: 0;
+  height: $avatar-dimensions;
+  justify-content: center;
+  margin: 0 auto 20px;
+  min-height: $avatar-dimensions;
+  min-width: $avatar-dimensions;
+  overflow: hidden;
+  width: $avatar-dimensions;
+
+  img,
+  canvas {
+    display: block;
+    height: $avatar-dimensions !important;
+    width: auto !important;
+  }
+}
+
+.md-History-Address {
+  display: flex;
+  margin-bottom: 30px;
+  padding: 0 45px;
+
+  &:active,
+  &:focus {
+    opacity: 0.6;
+  }
+}
+
+.md-History-AddressText {
+  color: #000;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-right: 10px;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}

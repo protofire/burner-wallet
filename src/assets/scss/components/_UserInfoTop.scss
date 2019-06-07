@@ -1,34 +1,34 @@
 $avatar-dimensions: 30px;
 
 .hdr-UserInfoTop {
-    align-items: center;
-    display: flex;
+  align-items: center;
+  display: flex;
 }
 
 .hdr-UserInfoTop-Avatar {
-    align-items: center;
-    border-radius: 50%;
-    display: flex;
-    flex-shrink: 0;
-    height: $avatar-dimensions;
-    justify-content: center;
-    margin: 0 10px 0 0;
-    min-height: $avatar-dimensions;
-    min-width: $avatar-dimensions;
-    overflow: hidden;
-    width: $avatar-dimensions;
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-shrink: 0;
+  height: $avatar-dimensions;
+  justify-content: center;
+  margin: 0 10px 0 0;
+  min-height: $avatar-dimensions;
+  min-width: $avatar-dimensions;
+  overflow: hidden;
+  width: $avatar-dimensions;
 
-    img,
-    canvas {
-        display: block;
-        height: $avatar-dimensions !important;
-        width: auto !important;
-    }
+  img,
+  canvas {
+    display: block;
+    height: $avatar-dimensions !important;
+    width: auto !important;
+  }
 }
 
 .hdr-UserInfoTop-Name {
-    color: #343434;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.2;
+  color: #343434;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
 }
