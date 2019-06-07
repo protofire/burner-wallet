@@ -1,17 +1,13 @@
+import ModalHeader from './ModalHeader'
 import React from 'react'
-import Badge from './Badge'
 import { Blockie } from 'dapparatus'
-import i18n from '../i18n'
 import axios from 'axios'
 
 const BockieSize = 12
 
 export default class Receive extends React.Component {
   componentDidMount() {
-    console.log('RECEIPT LOADED', this.props)
     if (this.props.receipt && this.props.receipt.daiposOrderId) {
-      console.log('This was a daipos Order... ping their server for them...')
-      // https://us-central1-daipos.cloudfunctions.net/transactionBuffer?orderId=0JFmycULnk9kAboK5ESg&txHash=0x8c831cd5cbc8786982817e43a0a77627ad0b12eaa92feff97fb3b7e91c263b1c&networkId=100
       let url =
         'https://us-central1-daipos.cloudfunctions.net/transactionBuffer?orderId=' +
         this.props.receipt.daiposOrderId +
@@ -41,75 +37,29 @@ export default class Receive extends React.Component {
     }
   }
   render() {
-    let { receipt, dollarDisplay } = this.props
-
-    let message = ''
-
-    let sendAmount = ''
-    if (receipt.badge) {
-      sendAmount = (
-        <div>
-          <Badge key={'sentbadge'} id={receipt.badge.id} image={receipt.badge.image} />
-        </div>
-      )
-    } else {
-      sendAmount = (
-        <div>
-          <span style={{ opacity: 0.15 }}>-</span>
-          {dollarDisplay(receipt.amount)}
-          <span style={{ opacity: 0.15 }}>-></span>
-        </div>
-      )
-    }
-
-    if (receipt.message) {
-      message = (
-        <div className="row" style={{ cursor: 'pointer', width: '100%', marginTop: 20, marginBottom: -30 }}>
-          <div
-            className="col-12"
-            style={{ textAlign: 'center', whiteSpace: 'nowrap', letterSpacing: -1, padddingTop: 30, fontSize: 20 }}
-          >
-            {receipt.message}
-          </div>
-        </div>
-      )
-    }
+    let { receipt, dollarDisplay, close } = this.props
+    let message = receipt.message
+    let sendAmount = dollarDisplay(receipt.amount)
 
     return (
-      <div>
-        <div className="send-to-address w-100">
-          <div className="row" style={{ cursor: 'pointer', width: '100%' }}>
-            <div className="col-12" style={{ textAlign: 'center', whiteSpace: 'nowrap', letterSpacing: -1 }}>
-              <i className="fas fa-check-circle" style={{ color: '#39e917', fontSize: 180, opacity: 0.7 }}></i>
-            </div>
+      <div className="sw-ModalContainer">
+        <ModalHeader closeClick={close} />
+        <div className="sw-ModalScrollingWrapper">
+          <div className="md-Receipt-AvatarWrapper">
+            <Blockie address={receipt.to} config={{ size: BockieSize }} />
           </div>
-
-          <div className="row" style={{ cursor: 'pointer', width: '100%' }}>
-            <div className="col-4" style={{ textAlign: 'center', whiteSpace: 'nowrap', letterSpacing: -1 }}>
-              <Blockie address={receipt.from} config={{ size: BockieSize }} />
-            </div>
-            <div
-              className="col-4"
-              style={{ textAlign: 'center', whiteSpace: 'nowrap', letterSpacing: -1, fontSize: 25, paddingTop: 28 }}
-            >
-              {sendAmount}
-            </div>
-            <div className="col-4" style={{ textAlign: 'center', whiteSpace: 'nowrap', letterSpacing: -1 }}>
-              <Blockie address={receipt.to} config={{ size: BockieSize }} />
-            </div>
+          <div className="md-Receipt-Title">Transaction Succeeded</div>
+          <div className="md-Receipt-SentTo">
+            <strong>Sent To:</strong> <div className="md-Receipt-SentToAddress">{receipt.to}</div>
           </div>
-          {message}
-        </div>
-        <div name="theVeryBottom" className="text-center bottom-text">
-          <span style={{ padding: 10 }}>
-            <span
-              onClick={() => {
-                this.props.goBack()
-              }}
-            >
-              <i className="fas fa-times" /> {i18n.t('done')}
-            </span>
-          </span>
+          <div className="md-Receipt-Amount">
+            <strong>Amount:</strong> {sendAmount}
+          </div>
+          {message ? (
+            <div className="md-Receipt-Message">
+              <strong>Message:</strong> {message}
+            </div>
+          ) : null}
         </div>
       </div>
     )

@@ -1444,32 +1444,27 @@ class App extends Component {
                   )
                 case 'receipt':
                   return (
-                    <React.Fragment>
-                      <div className="main-card card w-100" style={{ zIndex: 1 }}>
-                        <NavCard title={i18n.t('receipt_title')} goBack={this.goBack.bind(this)} />
-                        <Receipt
-                          ERC20TOKEN={ERC20TOKEN}
-                          address={account}
-                          balance={balance}
-                          block={this.state.block}
-                          buttonStyle={buttonStyle}
-                          changeAlert={this.changeAlert}
-                          changeView={this.changeView}
-                          dollarDisplay={dollarDisplay}
-                          ensLookup={this.ensLookup.bind(this)}
-                          fullRecentTxs={this.state.fullRecentTxs}
-                          fullTransactionsByAddress={this.state.fullTransactionsByAddress}
-                          goBack={this.goBack.bind(this)}
-                          receipt={this.state.receipt}
-                          recentTxs={this.state.recentTxs}
-                          send={send}
-                          transactionsByAddress={this.state.transactionsByAddress}
-                          view={this.state.view}
-                          web3={this.state.web3}
-                        />
-                      </div>
-                      <Bottom action={this.goBack.bind(this)} />
-                    </React.Fragment>
+                    <Receipt
+                      ERC20TOKEN={ERC20TOKEN}
+                      address={account}
+                      balance={balance}
+                      block={this.state.block}
+                      buttonStyle={buttonStyle}
+                      changeAlert={this.changeAlert}
+                      changeView={this.changeView}
+                      close={this.goBack.bind(this)}
+                      dollarDisplay={dollarDisplay}
+                      ensLookup={this.ensLookup.bind(this)}
+                      fullRecentTxs={this.state.fullRecentTxs}
+                      fullTransactionsByAddress={this.state.fullTransactionsByAddress}
+                      goBack={this.goBack.bind(this)}
+                      receipt={this.state.receipt}
+                      recentTxs={this.state.recentTxs}
+                      send={send}
+                      transactionsByAddress={this.state.transactionsByAddress}
+                      view={this.state.view}
+                      web3={this.state.web3}
+                    />
                   )
                 case 'receive':
                   return (
