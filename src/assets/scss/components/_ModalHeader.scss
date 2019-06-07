@@ -3,12 +3,31 @@
 .md-ModalHeader {
   display: flex;
   height: $modal-header-height;
+  justify-content: space-between;
   padding-left: $main-wrapper-padding;
   padding-right: $main-wrapper-padding;
   padding-top: 18px;
 }
 
 .md-ModalHeader-Close {
+  &:active,
+  &:focus {
+    opacity: 0.6;
+  }
+}
+
+.md-ModalHeader-Action {
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  outline: none;
+  text-align: right;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
+
   &:active,
   &:focus {
     opacity: 0.6;

@@ -819,7 +819,7 @@ class App extends Component {
 
               try {
                 smallerTx.data = this.state.web3.utils.hexToUtf8(tx.input)
-              } catch (e) {}
+              } catch (e) { }
               if (!smallerTx.data) {
                 smallerTx.data = ' *** unable to decrypt data *** '
               }
@@ -849,7 +849,7 @@ class App extends Component {
             parsedData // encrypted-data
           )
           return endMessage
-        } catch (e) {}
+        } catch (e) { }
       } else {
         //no meta account? maybe try to setup signing keys?
         //maybe have a contract that tries do decrypt? \
@@ -970,7 +970,7 @@ class App extends Component {
         } else {
           try {
             cleanEvent.data = this.state.web3.utils.hexToUtf8(cleanEvent.data)
-          } catch (e) {}
+          } catch (e) { }
         }
       }
       updatedTxs = this.addTxIfAccountMatches(recentTxs, transactionsByAddress, cleanEvent) || updatedTxs
@@ -1468,30 +1468,27 @@ class App extends Component {
                 case 'send_to_address':
                   return (
                     <React.Fragment>
-                      <div className="send-to-address card w-100" style={{ zIndex: 1 }}>
-                        <NavCard title={i18n.t('send_to_address_title')} goBack={this.goBack.bind(this)} />
-                        {defaultBalanceDisplay}
-                        <SendToAddress
-                          convertToDollar={convertToDollar}
-                          dollarSymbol={dollarSymbol}
-                          parseAndCleanPath={this.parseAndCleanPath.bind(this)}
-                          openScanner={this.openScanner.bind(this)}
-                          scannerState={this.state.scannerState}
-                          ensLookup={this.ensLookup.bind(this)}
-                          ERC20TOKEN={ERC20TOKEN}
-                          buttonStyle={buttonStyle}
-                          balance={balance}
-                          web3={this.state.web3}
-                          address={account}
-                          send={send}
-                          goBack={this.goBack.bind(this)}
-                          changeView={this.changeView}
-                          setReceipt={this.setReceipt}
-                          changeAlert={this.changeAlert}
-                          dollarDisplay={dollarDisplay}
-                        />
-                      </div>
-                      <Bottom text={i18n.t('cancel')} action={this.goBack.bind(this)} />
+                      <SendToAddress
+                        ERC20TOKEN={ERC20TOKEN}
+                        address={account}
+                        balance={balance}
+                        buttonStyle={buttonStyle}
+                        changeAlert={this.changeAlert}
+                        changeView={this.changeView}
+                        close={this.goBack.bind(this)}
+                        convertToDollar={convertToDollar}
+                        defaultBalanceDisplay={defaultBalanceDisplay}
+                        dollarDisplay={dollarDisplay}
+                        dollarSymbol={dollarSymbol}
+                        ensLookup={this.ensLookup.bind(this)}
+                        goBack={this.goBack.bind(this)}
+                        openScanner={this.openScanner.bind(this)}
+                        parseAndCleanPath={this.parseAndCleanPath.bind(this)}
+                        scannerState={this.state.scannerState}
+                        send={send}
+                        setReceipt={this.setReceipt}
+                        web3={this.state.web3}
+                      />
                     </React.Fragment>
                   )
                 case 'receipt':
@@ -1500,24 +1497,24 @@ class App extends Component {
                       <div className="main-card card w-100" style={{ zIndex: 1 }}>
                         <NavCard title={i18n.t('receipt_title')} goBack={this.goBack.bind(this)} />
                         <Receipt
-                          receipt={this.state.receipt}
-                          view={this.state.view}
-                          block={this.state.block}
-                          ensLookup={this.ensLookup.bind(this)}
                           ERC20TOKEN={ERC20TOKEN}
-                          buttonStyle={buttonStyle}
-                          balance={balance}
-                          web3={this.state.web3}
                           address={account}
-                          send={send}
-                          goBack={this.goBack.bind(this)}
-                          changeView={this.changeView}
+                          balance={balance}
+                          block={this.state.block}
+                          buttonStyle={buttonStyle}
                           changeAlert={this.changeAlert}
+                          changeView={this.changeView}
                           dollarDisplay={dollarDisplay}
-                          transactionsByAddress={this.state.transactionsByAddress}
-                          fullTransactionsByAddress={this.state.fullTransactionsByAddress}
+                          ensLookup={this.ensLookup.bind(this)}
                           fullRecentTxs={this.state.fullRecentTxs}
+                          fullTransactionsByAddress={this.state.fullTransactionsByAddress}
+                          goBack={this.goBack.bind(this)}
+                          receipt={this.state.receipt}
                           recentTxs={this.state.recentTxs}
+                          send={send}
+                          transactionsByAddress={this.state.transactionsByAddress}
+                          view={this.state.view}
+                          web3={this.state.web3}
                         />
                       </div>
                       <Bottom action={this.goBack.bind(this)} />
@@ -1527,7 +1524,6 @@ class App extends Component {
                   return (
                     <React.Fragment>
                       <Receive
-                        close={this.goBack.bind(this)}
                         ERC20TOKEN={ERC20TOKEN}
                         address={account}
                         balance={balance}
@@ -1535,7 +1531,7 @@ class App extends Component {
                         buttonStyle={buttonStyle}
                         changeAlert={this.changeAlert}
                         changeView={this.changeView}
-                        dollarDisplay={dollarDisplay}
+                        close={this.goBack.bind(this)}
                         dollarDisplay={dollarDisplay}
                         ensLookup={this.ensLookup.bind(this)}
                         fullRecentTxs={this.state.fullRecentTxs}
@@ -2085,7 +2081,7 @@ let sortByBlockNumber = (a, b) => {
 
 export default App
 
-String.prototype.replaceAll = function(search, replacement) {
+String.prototype.replaceAll = function (search, replacement) {
   var target = this
   return target.replace(new RegExp(search, 'g'), replacement)
 }
