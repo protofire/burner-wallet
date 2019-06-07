@@ -31,9 +31,9 @@ export default ({ dollarDisplay, address, recentTxs, block, changeView }) => {
           key={item.hash}
           onClick={() => {
             if (isReceivingFunds) {
-              changeView('account_' + item.to)
-            } else {
               changeView('account_' + item.from)
+            } else {
+              changeView('account_' + item.to)
             }
           }}
         >
