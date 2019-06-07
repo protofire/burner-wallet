@@ -59,7 +59,14 @@ export default ({ dollarDisplay, address, recentTxs, block, changeView }) => {
       <h2 className="sw-TransactionsList-Title">Transactions</h2>
       {txns}
     </div>
-  ) : null
+  ) : (
+    <div className="sw-TransactionsList-Empty">
+      <h2 className="sw-TransactionsList-Title">Transactions</h2>
+      <div className="sw-TransactionsList-EmptyContent">
+        <p>No transactions.</p>
+      </div>
+    </div>
+  )
 }
 
 let cleanTime = s => {
