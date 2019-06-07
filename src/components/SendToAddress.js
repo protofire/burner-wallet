@@ -1,9 +1,7 @@
-import Blockies from 'react-blockies'
 import ModalHeader from './ModalHeader'
 import React from 'react'
 import cookie from 'react-cookies'
 import i18n from '../i18n'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { scroller } from 'react-scroll'
 
 const queryString = require('query-string')
@@ -79,6 +77,10 @@ export default class SendToAddress extends React.Component {
 
     this.state = initialState
     window.history.pushState({}, '', '/')
+  }
+
+  componentDidMount = () => {
+    this.addressInput.blur()
   }
 
   updateState = async (key, value) => {

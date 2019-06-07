@@ -819,7 +819,7 @@ class App extends Component {
 
               try {
                 smallerTx.data = this.state.web3.utils.hexToUtf8(tx.input)
-              } catch (e) { }
+              } catch (e) {}
               if (!smallerTx.data) {
                 smallerTx.data = ' *** unable to decrypt data *** '
               }
@@ -849,7 +849,7 @@ class App extends Component {
             parsedData // encrypted-data
           )
           return endMessage
-        } catch (e) { }
+        } catch (e) {}
       } else {
         //no meta account? maybe try to setup signing keys?
         //maybe have a contract that tries do decrypt? \
@@ -970,7 +970,7 @@ class App extends Component {
         } else {
           try {
             cleanEvent.data = this.state.web3.utils.hexToUtf8(cleanEvent.data)
-          } catch (e) { }
+          } catch (e) {}
         }
       }
       updatedTxs = this.addTxIfAccountMatches(recentTxs, transactionsByAddress, cleanEvent) || updatedTxs
@@ -2081,7 +2081,7 @@ let sortByBlockNumber = (a, b) => {
 
 export default App
 
-String.prototype.replaceAll = function (search, replacement) {
+String.prototype.replaceAll = function(search, replacement) {
   var target = this
   return target.replace(new RegExp(search, 'g'), replacement)
 }
