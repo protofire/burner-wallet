@@ -1,0 +1,22 @@
+@import '../helpers/variables';
+
+.sw-Alert {
+  background-color: #fff;
+  box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.12);
+  left: $main-wrapper-padding;
+  position: fixed;
+  right: $main-wrapper-padding;
+  top: $main-wrapper-padding;
+  z-index: 12345 !important;
+}
+
+.sw-Alert-Text {
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 15px;
+  text-align: center;
+
+  &.sw-Alert-Text-success {
+    background-color: rgba(0, 127, 0, 0.1);
+  }
+}

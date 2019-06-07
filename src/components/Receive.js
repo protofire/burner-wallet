@@ -1,77 +1,61 @@
+import ModalHeader from './ModalHeader'
 import React from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import RecentTransactions from './RecentTransactions'
 import i18n from '../i18n'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 const QRCode = require('qrcode.react')
+const copyIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="14.413" height="18" viewBox="0 0 14.413 18">
+      <g dataName="Group 6">
+        <path
+          d="M9.791 3.148H1.423A1.424 1.424 0 0 0 0 4.571v12.006A1.424 1.424 0 0 0 1.423 18h8.368a1.424 1.424 0 0 0 1.423-1.423V4.571a1.428 1.428 0 0 0-1.423-1.423zm.424 13.425a.428.428 0 0 1-.428.428H1.419a.428.428 0 0 1-.428-.428v-12a.428.428 0 0 1 .428-.428h8.368a.428.428 0 0 1 .428.428z"
+          dataName="Path 25"
+        />
+        <path
+          d="M12.991 0H4.623A1.424 1.424 0 0 0 3.2 1.423a.5.5 0 0 0 1 0A.428.428 0 0 1 4.623 1h8.368a.428.428 0 0 1 .428.428v12.001a.428.428 0 0 1-.428.428.5.5 0 1 0 0 1 1.424 1.424 0 0 0 1.423-1.423V1.423A1.424 1.424 0 0 0 12.991 0z"
+          dataName="Path 26"
+        />
+      </g>
+    </svg>
+  )
+}
 
 export default class Receive extends React.Component {
   render() {
-    let {
-      dollarDisplay,
-      view,
-      buttonStyle,
-      ERC20TOKEN,
-      address,
-      balance,
-      changeAlert,
-      changeView,
-      subBalanceDisplay,
-      account
-    } = this.props
-
-    let qrSize = Math.min(document.documentElement.clientWidth, 512) - 90
-    let qrValue = address
+    let { address, changeAlert, close } = this.props
+    const qrSize = Math.min(document.documentElement.clientWidth, 512) - 90
+    const qrValue = address
 
     return (
-      <div>
-        <div className="send-to-address w-100">
+      <div className="sw-ModalContainer">
+        <ModalHeader closeClick={close} />
+        <div className="sw-ModalScrollingWrapper">
           <CopyToClipboard
             text={address}
             onCopy={() => {
               changeAlert({ type: 'success', message: i18n.t('receive.address_copied') })
             }}
           >
-            <div className="content qr row" style={{ cursor: 'pointer' }}>
-              <QRCode value={qrValue} size={qrSize} />
-              <div className="input-group">
-                <input type="text" className="form-control" style={{ color: '#999999' }} value={address} disabled />
-                <div className="input-group-append">
-                  <span className="input-group-text">
-                    <i style={{ color: '#999999' }} className="fas fa-copy" />
-                  </span>
-                </div>
+            <div>
+              <div className="md-ReceiveModal-QR">
+                <QRCode value={qrValue} size={qrSize} />
+              </div>
+              <div className="md-ReceiveModal-Address">
+                <span className="md-ReceiveModal-AddressText">{address}</span>
+                <span className="md-ReceiveModal-AddressCopy">{copyIcon()}</span>
               </div>
             </div>
           </CopyToClipboard>
-          <div style={{ width: '100%', textAlign: 'center', padding: 20 }}>
-            <a href={'https://blockscout.com/poa/dai/address/' + address + '/transactions'} target="_blank">
+          <div className="md-ReceiveModal-Link">
+            <a
+              href={'https://blockscout.com/poa/dai/address/' + address + '/transactions'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               View on Blockscout
             </a>
           </div>
-
-          <RecentTransactions
-            dollarDisplay={dollarDisplay}
-            view={view}
-            max={5}
-            buttonStyle={buttonStyle}
-            ERC20TOKEN={ERC20TOKEN}
-            transactionsByAddress={ERC20TOKEN ? this.props.fullTransactionsByAddress : this.props.transactionsByAddress}
-            changeView={changeView}
-            address={address}
-            block={this.props.block}
-            recentTxs={ERC20TOKEN ? this.props.fullRecentTxs : this.props.recentTxs}
-          />
-        </div>
-        <div name="theVeryBottom" className="text-center bottom-text">
-          <span>
-            <span
-              onClick={() => {
-                this.props.goBack()
-              }}
-            >
-              <i className="fas fa-times" /> {i18n.t('cancel')}
-            </span>
-          </span>
         </div>
       </div>
     )

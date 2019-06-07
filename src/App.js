@@ -28,7 +28,7 @@ import Admin from './components/Admin'
 import Vendor from './components/Vendor'
 import Vendors from './components/Vendors'
 import RecentTransactions from './components/RecentTransactions'
-import Footer from './components/Footer'
+import Alert from './components/Alert'
 import Loader from './components/Loader'
 import BurnWallet from './components/BurnWallet'
 import Exchange from './components/Exchange'
@@ -147,7 +147,7 @@ if (window.location.hostname.indexOf('localhost') >= 0 || window.location.hostna
   LOADERIMAGE = protofire
 }
 
-if (ERC20NAME == 'Proto') {
+if (ERC20NAME === 'Proto') {
   mainStyle.backgroundImage = 'linear-gradient(#fff, #fff)'
   mainStyle.backgroundColor = '#fff'
   mainStyle.mainColor = '#b6299e'
@@ -165,7 +165,7 @@ if (ERC20NAME == 'Proto') {
       alt=""
     />
   )
-} else if (ERC20NAME == 'BURN') {
+} else if (ERC20NAME === 'BURN') {
   mainStyle.backgroundImage = 'linear-gradient(#4923d8, #6c0664)'
   mainStyle.backgroundColor = '#6c0664'
   mainStyle.mainColor = '#e72da3'
@@ -201,11 +201,10 @@ let buttonStyle = {
   }
 }
 
-let metaReceiptTracker = {}
-
 const BLOCKS_TO_PARSE_PER_BLOCKTIME = 32
 const MAX_BLOCK_TO_LOOK_BACK = 512 //don't look back more than 512 blocks
 
+let metaReceiptTracker = {}
 let dollarSymbol = '$'
 let dollarConversion = 1.0
 let convertToDollar = amount => {
@@ -458,9 +457,6 @@ class App extends Component {
   async poll() {
     let badgeBalance = 0
     let singleBadgeId
-
-    //console.log(">>>>>>> <<< >>>>>> Looking into iframe...")
-    //console.log(document.getElementById('galleassFrame').contentWindow['web3'])
 
     if (ERC20TOKEN && this.state.contracts) {
       let gasBalance = await this.state.web3.eth.getBalance(this.state.account)
@@ -812,8 +808,8 @@ class App extends Component {
             blockNumber: tx.blockNumber
           }
 
-          if (smallerTx.from == this.state.account || smallerTx.to == this.state.account) {
-            if (tx.input && tx.input != '0x') {
+          if (smallerTx.from === this.state.account || smallerTx.to === this.state.account) {
+            if (tx.input && tx.input !== '0x') {
               let decrypted = await this.decryptInput(tx.input)
 
               if (decrypted) {
@@ -824,7 +820,6 @@ class App extends Component {
               try {
                 smallerTx.data = this.state.web3.utils.hexToUtf8(tx.input)
               } catch (e) {}
-              //console.log("smallerTx at this point",smallerTx)
               if (!smallerTx.data) {
                 smallerTx.data = ' *** unable to decrypt data *** '
               }
@@ -838,10 +833,9 @@ class App extends Component {
   }
   async decryptInput(input) {
     let key = input.substring(0, 32)
-    //console.log("looking in memory for key",key)
     let cachedEncrypted = this.state[key]
+
     if (!cachedEncrypted) {
-      //console.log("nothing found in memory, checking local storage")
       cachedEncrypted = localStorage.getItem(key)
     }
     if (cachedEncrypted) {
@@ -893,9 +887,9 @@ class App extends Component {
   }
   addTxIfAccountMatches(recentTxs, transactionsByAddress, smallerTx) {
     let updatedTxs = false
-
     let otherAccount = smallerTx.to
-    if (smallerTx.to == this.state.account) {
+
+    if (smallerTx.to === this.state.account) {
       otherAccount = smallerTx.from
     }
     if (!transactionsByAddress[otherAccount]) {
@@ -905,9 +899,9 @@ class App extends Component {
     let found = false
     if (parseFloat(smallerTx.value) > 0.005) {
       for (let r in recentTxs) {
-        if (recentTxs[r].hash == smallerTx.hash /* && (!smallerTx.data || recentTxs[r].data == smallerTx.data)*/) {
+        if (recentTxs[r].hash === smallerTx.hash) {
           found = true
-          if (!smallerTx.data || recentTxs[r].data == smallerTx.data) {
+          if (!smallerTx.data || recentTxs[r].data === smallerTx.data) {
             // do nothing, it exists
           } else {
             recentTxs[r].data = smallerTx.data
@@ -918,16 +912,12 @@ class App extends Component {
       if (!found) {
         updatedTxs = true
         recentTxs.push(smallerTx)
-        //console.log("recentTxs after push",recentTxs)
       }
     }
 
     found = false
     for (let t in transactionsByAddress[otherAccount]) {
-      if (
-        transactionsByAddress[otherAccount][t].hash ==
-        smallerTx.hash /* && (!smallerTx.data || recentTxs[r].data == smallerTx.data)*/
-      ) {
+      if (transactionsByAddress[otherAccount][t].hash === smallerTx.hash) {
         found = true
         if (!smallerTx.data || transactionsByAddress[otherAccount][t].data == smallerTx.data) {
           // do nothing, it exists
@@ -951,6 +941,7 @@ class App extends Component {
     for (let t in transactionsByAddress) {
       transactionsByAddress[t].sort(sortByBlockNumberDESC)
     }
+
     recentTxs = recentTxs.slice(0, 12)
     localStorage.setItem(this.state.account + 'recentTxs', JSON.stringify(recentTxs))
     localStorage.setItem(this.state.account + 'transactionsByAddress', JSON.stringify(transactionsByAddress))
@@ -1033,14 +1024,8 @@ class App extends Component {
       networkOverlay = (
         <React.Fragment>
           >
-          <input
-            style={{ zIndex: 13, position: 'absolute', opacity: 0.95, right: 48, top: 192, width: 194 }}
-            value="https://dai.poa.network"
-          />
-          <img
-            style={{ zIndex: 12, position: 'absolute', opacity: 0.95, right: 0, top: 0, maxHeight: 370 }}
-            src={customRPCHint}
-          />
+          <input value="https://dai.poa.network" />
+          <img src={customRPCHint} alt="" />
         </React.Fragment>
       )
     }
@@ -1048,7 +1033,7 @@ class App extends Component {
     let web3_setup = ''
     if (web3) {
       web3_setup = (
-        <div>
+        <React.Fragment>
           <ContractLoader
             key="ContractLoader"
             config={{ DEBUG: true }}
@@ -1065,20 +1050,19 @@ class App extends Component {
             }}
           />
           <Transactions
-            key="Transactions"
-            config={{ DEBUG: false, hide: true }}
             account={account}
-            gwei={gwei}
-            web3={web3}
-            block={block}
             avgBlockTime={avgBlockTime}
+            block={block}
+            config={{ DEBUG: false, hide: true }}
             etherscan={etherscan}
+            gwei={gwei}
+            key="Transactions"
             metaAccount={metaAccount}
+            web3={web3}
             onReady={state => {
               console.log('Transactions component is ready:', state)
               if (ERC20TOKEN) {
                 state.nativeSend = state.send
-                //delete state.send
                 state.send = tokenSend.bind(this)
               }
               console.log(state)
@@ -1090,7 +1074,7 @@ class App extends Component {
               console.log('Transaction Receipt', transaction, receipt)
             }}
           />
-        </div>
+        </React.Fragment>
       )
     }
 
@@ -1118,7 +1102,6 @@ class App extends Component {
           changeView={this.changeView}
           dollarDisplay={dollarDisplay}
           ens={this.state.ens}
-          mainStyle={mainStyle}
           network={this.state.network}
           openScanner={this.openScanner.bind(this)}
           title={this.state.title}
@@ -1135,7 +1118,7 @@ class App extends Component {
           {extraHead}
           {networkOverlay}
           {web3_setup}
-          {web3 /*&& this.checkNetwork()*/ &&
+          {web3 &&
             (() => {
               let moreButtons = (
                 <MoreButtons
@@ -1257,21 +1240,21 @@ class App extends Component {
                       {defaultBalanceDisplay}
                       <History
                         buttonStyle={buttonStyle}
-                        saveKey={this.saveKey.bind(this)}
                         metaAccount={this.state.metaAccount}
+                        saveKey={this.saveKey.bind(this)}
                         transactionsByAddress={
                           ERC20TOKEN ? this.state.fullTransactionsByAddress : this.state.transactionsByAddress
                         }
                         address={account}
                         balance={balance}
+                        block={this.state.block}
                         changeAlert={this.changeAlert}
                         changeView={this.changeView}
-                        target={targetAddress}
-                        block={this.state.block}
-                        send={this.state.send}
-                        web3={this.state.web3}
-                        goBack={this.goBack.bind(this)}
                         dollarDisplay={dollarDisplay}
+                        goBack={this.goBack.bind(this)}
+                        send={this.state.send}
+                        target={targetAddress}
+                        web3={this.state.web3}
                       />
                     </div>
                     <Bottom
@@ -1543,31 +1526,27 @@ class App extends Component {
                 case 'receive':
                   return (
                     <React.Fragment>
-                      <div className="main-card card w-100" style={{ zIndex: 1 }}>
-                        <NavCard title={i18n.t('receive_title')} goBack={this.goBack.bind(this)} />
-                        {defaultBalanceDisplay}
-                        <Receive
-                          dollarDisplay={dollarDisplay}
-                          view={this.state.view}
-                          block={this.state.block}
-                          ensLookup={this.ensLookup.bind(this)}
-                          ERC20TOKEN={ERC20TOKEN}
-                          buttonStyle={buttonStyle}
-                          balance={balance}
-                          web3={this.state.web3}
-                          address={account}
-                          send={send}
-                          goBack={this.goBack.bind(this)}
-                          changeView={this.changeView}
-                          changeAlert={this.changeAlert}
-                          dollarDisplay={dollarDisplay}
-                          transactionsByAddress={this.state.transactionsByAddress}
-                          fullTransactionsByAddress={this.state.fullTransactionsByAddress}
-                          fullRecentTxs={this.state.fullRecentTxs}
-                          recentTxs={this.state.recentTxs}
-                        />
-                      </div>
-                      <Bottom action={this.goBack.bind(this)} />
+                      <Receive
+                        close={this.goBack.bind(this)}
+                        ERC20TOKEN={ERC20TOKEN}
+                        address={account}
+                        balance={balance}
+                        block={this.state.block}
+                        buttonStyle={buttonStyle}
+                        changeAlert={this.changeAlert}
+                        changeView={this.changeView}
+                        dollarDisplay={dollarDisplay}
+                        dollarDisplay={dollarDisplay}
+                        ensLookup={this.ensLookup.bind(this)}
+                        fullRecentTxs={this.state.fullRecentTxs}
+                        fullTransactionsByAddress={this.state.fullTransactionsByAddress}
+                        goBack={this.goBack.bind(this)}
+                        recentTxs={this.state.recentTxs}
+                        send={send}
+                        transactionsByAddress={this.state.transactionsByAddress}
+                        view={this.state.view}
+                        web3={this.state.web3}
+                      />
                     </React.Fragment>
                   )
                 case 'request_funds':
@@ -1875,8 +1854,6 @@ class App extends Component {
               <Loader loaderImage={LOADERIMAGE} mainStyle={mainStyle} />
             </div>
           )}
-          {alert && <Footer alert={alert} changeAlert={this.changeAlert} />}
-
           <Dapparatus
             config={{
               DEBUG: false,
@@ -1990,9 +1967,9 @@ class App extends Component {
               color: '#FFFFFF'
             }}
           ></div>
-
           {eventParser}
         </div>
+        {alert && <Alert alert={alert} changeAlert={this.changeAlert} />}
       </I18nextProvider>
     )
   }

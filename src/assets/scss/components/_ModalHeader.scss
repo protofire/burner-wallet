@@ -1,0 +1,16 @@
+@import "../helpers/variables";
+
+.md-ModalHeader {
+  display: flex;
+  height: $modal-header-height;
+  padding-left: $main-wrapper-padding;
+  padding-right: $main-wrapper-padding;
+  padding-top: 18px;
+}
+
+.md-ModalHeader-Close {
+  &:active,
+  &:focus {
+    opacity: 0.6;
+  }
+}
