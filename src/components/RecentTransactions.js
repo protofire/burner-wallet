@@ -1,79 +1,56 @@
 import React from 'react'
 import { Blockie } from 'dapparatus'
+import SentTo from '../assets/img/sent-to.png'
+import ReceivedFrom from '../assets/img/received-from.png'
 
-export default ({ dollarDisplay, max, ERC20TOKEN, address, recentTxs, block, changeView }) => {
+const chevronIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="10.261" height="18" viewBox="0 0 10.261 18">
+      <g fill="#999" id="chevron" transform="translate(-97.139)">
+        <path
+          d="M107.03 9.891l-7.74 7.739a1.26 1.26 0 0 1-1.783-1.782L104.356 9l-6.848-6.848A1.261 1.261 0 0 1 99.29.369l7.74 7.74a1.26 1.26 0 0 1 0 1.782z"
+          dataName="Path 15"
+          id="Path_15"
+        />
+      </g>
+    </svg>
+  )
+}
+
+export default ({ dollarDisplay, address, recentTxs, block, changeView }) => {
   let txns = []
-  let count = 0
-
-  max = !max ? 9999 : max
 
   if (recentTxs) {
     txns = recentTxs.map((item, index) => {
-      let thisValue = parseFloat(item.value)
+      const blockAge = block - item.blockNumber
+      const isReceivingFunds = item.to === address ? true : false
 
-      if (thisValue > 0.0) {
-        let dollarView
-
-        if (ERC20TOKEN) {
-          if (item.token) {
-            dollarView = (
-              <span>
-                <span>-</span>
-                {dollarDisplay(item.value)}
-                <span>-></span>
-              </span>
-            )
-          } else {
-            dollarView = dollarDisplay(item.value)
-          }
-        } else {
-          dollarView = (
-            <span>
-              <span>-</span>
-              {dollarDisplay(item.value)}
-              <span>-></span>
-            </span>
-          )
-        }
-
-        let toBlockie = <Blockie address={item.to} config={{ size: 4 }} />
-
-        if (item.to === address && item.data) {
-          let message = item.data
-          let limit = 18
-
-          if (message.length > limit) {
-            message = message.substring(0, limit - 3) + '...'
-          }
-
-          toBlockie = <span style={{ fontSize: 14 }}>{message}</span>
-        }
-
-        if (count++ < max) {
-          let blockAge = block - item.blockNumber
-
-          return (
-            <div
-              className="sw-TransactionsList-Item"
-              key={item.hash}
-              onClick={() => {
-                if (item.from === address) {
-                  changeView('account_' + item.to)
-                } else {
-                  changeView('account_' + item.from)
-                }
-              }}
-            >
-              <div className="sw-TransactionsList-ItemAvatar">
-                <Blockie address={item.to === address ? item.from : item.to} config={{ size: 4 }} />
-              </div>
-              <div>{item.to === address ? 'He has sent money to me' : 'I have sent money to you'}</div>
-              <div>{dollarView}</div>
-              <div>{cleanTime(blockAge * 5)} ago</div>
-            </div>
-          )
-        }
-      }
+      return (
+        <div
+          className="sw-TransactionsList-Item"
+          key={item.hash}
+          onClick={() => {
+            if (isReceivingFunds) {
+              changeView('account_' + item.to)
+            } else {
+              changeView('account_' + item.from)
+            }
+          }}
+        >
+          <div className="sw-TransactionsList-ItemAvatar">
+            <Blockie address={isReceivingFunds ? item.from : item.to} config={{ size: 4 }} />
+          </div>
+          <div className="sw-TransactionsList-FlowDirection">
+            <img src={isReceivingFunds ? ReceivedFrom : SentTo} alt="" />
+          </div>
+          <div className="sw-TransactionsList-Text">
+            {isReceivingFunds ? 'Received' : 'Sent'} funds:{' '}
+            <span className="sw-TransactionsList-TextValue">{dollarDisplay(item.value)} • </span>
+            <span className="sw-TransactionsList-TextDate">{cleanTime(blockAge * 5)} ago</span>
+          </div>
+          <div className="sw-TransactionsList-ItemChevron">{chevronIcon()}</div>
+        </div>
+      )
     })
   }
 

@@ -26,7 +26,7 @@ $avatar-dimensions: 30px;
   flex-shrink: 0;
   height: $avatar-dimensions;
   justify-content: center;
-  margin: 0 7px 0 0;
+  margin: 0;
   min-height: $avatar-dimensions;
   min-width: $avatar-dimensions;
   overflow: hidden;
@@ -38,6 +38,40 @@ $avatar-dimensions: 30px;
       height: $avatar-dimensions !important;
       width: auto !important;
   }
+}
+
+.sw-TransactionsList-FlowDirection {
+  flex-shrink: 0;
+  margin: 0 8px;
+
+  img {
+    width: 14px;
+  }
+}
+
+.sw-TransactionsList-Text {
+  color: #000;
+  flex-grow: 1;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.sw-TransactionsList-TextValue {
+  font-weight: 700;
+}
+
+.sw-TransactionsList-TextDate {
+  color: #aaa;
+}
+
+.sw-TransactionsList-ItemChevron {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  margin-left: 20px;
 }
 
 .sw-TransactionsList-Title {
