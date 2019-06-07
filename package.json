@@ -54,10 +54,9 @@
     "start": "PORT=3000 react-scripts start",
     "build": "export NODE_OPTIONS=--max_old_space_size=4096 && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "eject": "react-scripts eject",
+    "lint": "./node_modules/.bin/eslint --fix 'src/**/*.js'",
+    "prettier": "./node_modules/.bin/prettier --write 'src/**/*.js'"
   },
   "browserslist": [
     ">0.2%",
@@ -66,8 +65,19 @@
   ],
   "devDependencies": {
     "clevis": "0.1.4",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-config-react-app": "2.1.0",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-dependencies": "2.4.0",
+    "eslint-plugin-flowtype": "2.34.1",
+    "eslint-plugin-import": "2.6.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-prettier": "2.6.2",
+    "eslint-plugin-react": "7.1.0",
     "mocha": "^5.2.0",
     "openzeppelin-solidity": "2.0.0",
+    "prettier": "^1.13.7",
     "webpack": "^4.28.4"
   }
 }

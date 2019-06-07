@@ -1,1 +1,1 @@
-module.exports = "6627956"
+module.exports = '6627956'

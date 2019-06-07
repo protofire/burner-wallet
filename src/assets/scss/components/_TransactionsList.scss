@@ -1,5 +1,7 @@
 @import '../helpers/variables';
 
+$avatar-dimensions: 30px;
+
 .sw-TransactionsList {
   padding: 0 $main-wrapper-padding;
 }
@@ -14,6 +16,27 @@
   &:focus,
   &:active {
     background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+.sw-TransactionsList-ItemAvatar {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-shrink: 0;
+  height: $avatar-dimensions;
+  justify-content: center;
+  margin: 0 7px 0 0;
+  min-height: $avatar-dimensions;
+  min-width: $avatar-dimensions;
+  overflow: hidden;
+  width: $avatar-dimensions;
+
+  img,
+  canvas {
+      display: block;
+      height: $avatar-dimensions !important;
+      width: auto !important;
   }
 }
 
