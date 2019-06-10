@@ -1,10 +1,11 @@
-import React from 'react'
-import Web3 from 'web3'
-import { Scaler } from 'dapparatus'
 import Badges from '../components/Badges'
 import Blockies from 'react-blockies'
+import ModalHeader from './ModalHeader'
+import React from 'react'
+import Web3 from 'web3'
 import axios from 'axios'
 import i18n from '../i18n'
+import { Blockie } from 'dapparatus'
 
 let pollInterval
 let metaReceiptTracker = {}
@@ -110,9 +111,8 @@ export default class SendToAddress extends React.Component {
       setTimeout(() => {
         window.scrollTo(0, 0)
       }, 60)
-      //console.log("metaAccount",this.state.metaAccount,"amount",this.props.web3.utils.toWei(amount,'ether'))
-      let tx
 
+      let tx
       if (amount > 0) {
         if (this.props.ERC20TOKEN) {
           tx = {
@@ -154,7 +154,6 @@ export default class SendToAddress extends React.Component {
 
           tx = {
             to: this.props.contracts['Badges']._address,
-            //.Badges.transferFrom(this.props.address,this.state.toAddress,this.props.badge.id)
             data: this.props.contracts['Badges']
               .transferFrom(fromAddress, this.props.address, this.state.fromBadges[b].id)
               .encodeABI(),
@@ -176,21 +175,6 @@ export default class SendToAddress extends React.Component {
               }
             })
           })
-
-          /*this.props.tx(
-              this.props.contracts.Badges.transferFrom(this.props.address,this.state.toAddress,this.props.badge.id)
-              ,240000,0,0,(receipt)=>{
-                if(receipt){
-
-                  console.log("SEND BADGE COMPLETE?!?",receipt)
-                  this.props.goBack();
-                  window.history.pushState({},"", "/");
-                  this.props.setReceipt({to:toAddress,from:receipt.from,badge:this.props.badge,result:receipt})
-                  this.props.changeView("receipt");
-                  this.props.clearBadges()
-                }
-              }
-            )*/
         }
       }
     } else {
@@ -199,9 +183,10 @@ export default class SendToAddress extends React.Component {
   }
 
   render() {
-    let { canWithdraw, fromAddress } = this.state
-
+    const { canWithdraw, fromAddress } = this.state
+    const { defaultBalanceDisplay, close } = this.props
     let products = []
+
     for (let p in this.props.products) {
       let prod = this.props.products[p]
       if (prod.exists) {
@@ -223,9 +208,7 @@ export default class SendToAddress extends React.Component {
                   }}
                   style={this.props.buttonStyle.secondary}
                 >
-                  <Scaler config={{ startZoomAt: 400, origin: '50% 50%' }}>
-                    {this.props.web3.utils.hexToUtf8(prod.name)} {this.props.dollarDisplay(costInDollars)}
-                  </Scaler>
+                  {this.props.web3.utils.hexToUtf8(prod.name)} {this.props.dollarDisplay(costInDollars)}
                 </button>
               </div>
             </div>
@@ -233,6 +216,7 @@ export default class SendToAddress extends React.Component {
         }
       }
     }
+
     if (products.length > 0) {
       products.push(
         <div key={'reset'} className="content bridge row">
@@ -244,78 +228,46 @@ export default class SendToAddress extends React.Component {
               }}
               style={this.props.buttonStyle.secondary}
             >
-              <Scaler config={{ startZoomAt: 400, origin: '50% 50%' }}>Reset</Scaler>
+              Reset
             </button>
           </div>
         </div>
       )
     }
 
-    let amountWithdrawDislay
-
-    if (this.state.fromBalance > 0) {
-      amountWithdrawDislay = (
-        <div>
-          <div className="content bridge row">
-            <div className="col-6 p-1 w-100">{<Blockies seed={fromAddress} scale={10} />}</div>
-            <div className="col-6 p-1 w-100">
-              <div style={{ fontSize: 64, letterSpacing: -2, fontWeight: 500, whiteSpace: 'nowrap' }}>
-                <Scaler config={{ startZoomAt: 1000, origin: '0% 50%' }}>
-                  {this.props.dollarDisplay(this.state.fromBalance)}
-                </Scaler>
-              </div>
-            </div>
+    let amountWithdrawDislay =
+      this.state.fromBalance > 0 ? (
+        <div className="sw-FormWrapper">
+          <div className="wd-Withdraw-Amount">
+            <strong>Current Balance:</strong> {this.props.dollarDisplay(this.state.fromBalance)}
           </div>
-
-          <label htmlFor="amount_input">{i18n.t('withdraw_from_private.amount')}</label>
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <div className="input-group-text">$</div>
-            </div>
+          <div className="sw-TextField">
             <input
               type="number"
-              className="form-control"
-              placeholder="0.00"
+              className="sw-TextField-Text"
+              placeholder={i18n.t('withdraw_from_private.amount')}
               value={this.state.amount}
               onChange={event => this.updateState('amount', event.target.value)}
             />
           </div>
         </div>
-      )
-    } else {
-      amountWithdrawDislay = (
-        <div className="content bridge row">
-          <div className="col-12 p-1 w-100">{<Blockies seed={fromAddress} scale={10} />}</div>
-        </div>
-      )
-    }
+      ) : null
 
     return (
-      <div>
-        <div className="content row">
-          <div className="form-group w-100">
-            <div className="form-group w-100">
-              <label htmlFor="amount_input">{i18n.t('withdraw_from_private.from_address')}</label>
-              <input type="text" className="form-control" placeholder="0x..." value={fromAddress} />
-            </div>
-
-            <div className="content bridge row">
-              <div className="col-12 p-1 w-100">
-                <Badges badges={this.state.fromBadges} address={this.props.address} selectBadge={() => {}} />
-              </div>
-            </div>
-
-            {amountWithdrawDislay}
-
-            {products}
+      <div className="sw-ModalContainer">
+        <ModalHeader
+          actionClick={this.withdraw}
+          actionEnabled={canWithdraw}
+          actionText={i18n.t('withdraw_from_private.withdraw')}
+          closeClick={close}
+        />
+        <div className="sw-ModalScrollingWrapper">
+          {defaultBalanceDisplay}
+          <div className="md-Receipt-AvatarWrapper">
+            <Blockie address={fromAddress} config={{ size: 16 }} />
           </div>
-          <button
-            style={this.props.buttonStyle.primary}
-            className={`btn btn-success btn-lg w-100 ${canWithdraw ? '' : 'disabled'}`}
-            onClick={this.withdraw}
-          >
-            {i18n.t('withdraw_from_private.withdraw')}
-          </button>
+          <div className="wd-Withdraw-Address">{fromAddress}</div>
+          {amountWithdrawDislay}
         </div>
       </div>
     )

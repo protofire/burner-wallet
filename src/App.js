@@ -1343,32 +1343,23 @@ class App extends Component {
                   )
                 case 'withdraw_from_private':
                   return (
-                    <React.Fragment>
-                      <div className="send-to-address card w-100" style={{ zIndex: 1 }}>
-                        <NavCard title={i18n.t('withdraw')} goBack={this.goBack.bind(this)} />
-                        {defaultBalanceDisplay}
-                        <WithdrawFromPrivate
-                          ERC20TOKEN={ERC20TOKEN}
-                          address={account}
-                          badges={this.state.badges}
-                          balance={balance}
-                          buttonStyle={buttonStyle}
-                          changeAlert={this.changeAlert}
-                          changeView={this.changeView}
-                          contracts={this.state.contracts}
-                          dollarDisplay={dollarDisplay}
-                          goBack={this.goBack.bind(this)}
-                          privateKey={this.state.withdrawFromPrivateKey}
-                          products={this.state.products}
-                          web3={web3}
-                        />
-                      </div>
-                      <Bottom
-                        action={() => {
-                          this.changeView('main')
-                        }}
-                      />
-                    </React.Fragment>
+                    <WithdrawFromPrivate
+                      defaultBalanceDisplay={defaultBalanceDisplay}
+                      ERC20TOKEN={ERC20TOKEN}
+                      address={account}
+                      badges={this.state.badges}
+                      balance={balance}
+                      buttonStyle={buttonStyle}
+                      changeAlert={this.changeAlert}
+                      changeView={this.changeView}
+                      close={this.goBack.bind(this)}
+                      contracts={this.state.contracts}
+                      dollarDisplay={dollarDisplay}
+                      goBack={this.goBack.bind(this)}
+                      privateKey={this.state.withdrawFromPrivateKey}
+                      products={this.state.products}
+                      web3={web3}
+                    />
                   )
                 case 'send_badge':
                   if (
