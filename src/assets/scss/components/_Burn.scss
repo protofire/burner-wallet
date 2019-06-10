@@ -1,0 +1,25 @@
+.md-Burn-MainToken {
+    padding-bottom: 40px;
+}
+
+.md-Burn-Text {
+  color: #000;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 10px;
+  padding: 0 30px;
+  text-align: center;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.md-Burn-Text-bold {
+    font-weight: 500;
+  }
+
+  &.md-Burn-Text-danger {
+    color: #d80000;
+  }
+}

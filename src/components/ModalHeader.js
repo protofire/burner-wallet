@@ -10,7 +10,7 @@ const closeArrow = () => {
 
 export default class ModalHeader extends React.Component {
   render() {
-    let { closeClick, actionText = undefined, actionClick = undefined, actionEnabled, title } = this.props
+    let { closeClick, actionText = undefined, actionClick = undefined, actionEnabled = true, title } = this.props
 
     return (
       <div className="md-ModalHeader">

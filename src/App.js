@@ -786,7 +786,7 @@ class App extends Component {
 
               try {
                 smallerTx.data = this.state.web3.utils.hexToUtf8(tx.input)
-              } catch (e) {}
+              } catch (e) { }
               if (!smallerTx.data) {
                 smallerTx.data = ' *** unable to decrypt data *** '
               }
@@ -816,7 +816,7 @@ class App extends Component {
             parsedData // encrypted-data
           )
           return endMessage
-        } catch (e) {}
+        } catch (e) { }
       } else {
         //no meta account? maybe try to setup signing keys?
         //maybe have a contract that tries do decrypt? \
@@ -937,7 +937,7 @@ class App extends Component {
         } else {
           try {
             cleanEvent.data = this.state.web3.utils.hexToUtf8(cleanEvent.data)
-          } catch (e) {}
+          } catch (e) { }
         }
       }
       updatedTxs = this.addTxIfAccountMatches(recentTxs, transactionsByAddress, cleanEvent) || updatedTxs
@@ -1619,33 +1619,26 @@ class App extends Component {
                   )
                 case 'burn-wallet':
                   return (
-                    <React.Fragment>
-                      <div className="main-card card w-100" style={{ zIndex: 1 }}>
-                        <NavCard title={'Burn Private Key'} goBack={this.goBack.bind(this)} />
-                        {defaultBalanceDisplay}
-                        <BurnWallet
-                          address={account}
-                          balance={balance}
-                          dollarDisplay={dollarDisplay}
-                          goBack={this.goBack.bind(this)}
-                          mainStyle={mainStyle}
-                          burnWallet={() => {
-                            burnMetaAccount()
-                            if (RNMessageChannel) {
-                              RNMessageChannel.send('burn')
-                            }
-                            if (localStorage && typeof localStorage.setItem === 'function') {
-                              localStorage.setItem(this.state.account + 'loadedBlocksTop', '')
-                              localStorage.setItem(this.state.account + 'metaPrivateKey', '')
-                              localStorage.setItem(this.state.account + 'recentTxs', '')
-                              localStorage.setItem(this.state.account + 'transactionsByAddress', '')
-                              this.setState({ recentTxs: [], transactionsByAddress: {} })
-                            }
-                          }}
-                        />
-                      </div>
-                      <Bottom text={i18n.t('cancel')} action={this.goBack.bind(this)} />
-                    </React.Fragment>
+                    <BurnWallet
+                      address={account}
+                      balance={balance}
+                      close={this.goBack.bind(this)}
+                      dollarDisplay={dollarDisplay}
+                      defaultBalanceDisplay={defaultBalanceDisplay}
+                      burnWallet={() => {
+                        burnMetaAccount()
+                        if (RNMessageChannel) {
+                          RNMessageChannel.send('burn')
+                        }
+                        if (localStorage && typeof localStorage.setItem === 'function') {
+                          localStorage.setItem(this.state.account + 'loadedBlocksTop', '')
+                          localStorage.setItem(this.state.account + 'metaPrivateKey', '')
+                          localStorage.setItem(this.state.account + 'recentTxs', '')
+                          localStorage.setItem(this.state.account + 'transactionsByAddress', '')
+                          this.setState({ recentTxs: [], transactionsByAddress: {} })
+                        }
+                      }}
+                    />
                   )
                 case 'cash_out':
                   return (
@@ -1974,7 +1967,7 @@ let sortByBlockNumber = (a, b) => {
 
 export default App
 
-String.prototype.replaceAll = function(search, replacement) {
+String.prototype.replaceAll = function (search, replacement) {
   var target = this
   return target.replace(new RegExp(search, 'g'), replacement)
 }
