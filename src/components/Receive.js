@@ -14,7 +14,7 @@ export default class Receive extends React.Component {
 
     return (
       <div className="sw-ModalContainer">
-        <ModalHeader closeClick={close} />
+        <ModalHeader closeClick={close} title="Receive" />
         <div className="sw-ModalScrollingWrapper">
           <CopyToClipboard
             text={address}

@@ -82,7 +82,7 @@ export default class History extends React.Component {
 
     return (
       <div className="sw-ModalContainer">
-        <ModalHeader closeClick={close} />
+        <ModalHeader closeClick={close} title="Transactions History" />
         <div className="sw-ModalScrollingWrapper">
           <div className="md-History-AvatarWrapper">
             <Blockies seed={target} scale={5} />

@@ -1314,27 +1314,18 @@ class App extends Component {
                   )
                 case 'advanced':
                   return (
-                    <React.Fragment>
-                      <div className="main-card card w-100" style={{ zIndex: 1 }}>
-                        <NavCard title={i18n.t('advance_title')} goBack={this.goBack.bind(this)} />
-                        <Advanced
-                          isVendor={this.state.isVendor && this.state.isVendor.isAllowed}
-                          buttonStyle={buttonStyle}
-                          address={account}
-                          balance={balance}
-                          changeView={this.changeView}
-                          privateKey={metaAccount.privateKey}
-                          changeAlert={this.changeAlert}
-                          goBack={this.goBack.bind(this)}
-                          setPossibleNewPrivateKey={this.setPossibleNewPrivateKey.bind(this)}
-                        />
-                      </div>
-                      <Bottom
-                        action={() => {
-                          this.changeView('main')
-                        }}
-                      />
-                    </React.Fragment>
+                    <Advanced
+                      address={account}
+                      balance={balance}
+                      buttonStyle={buttonStyle}
+                      changeAlert={this.changeAlert}
+                      changeView={this.changeView}
+                      close={this.goBack.bind(this)}
+                      goBack={this.goBack.bind(this)}
+                      isVendor={this.state.isVendor && this.state.isVendor.isAllowed}
+                      privateKey={metaAccount.privateKey}
+                      setPossibleNewPrivateKey={this.setPossibleNewPrivateKey.bind(this)}
+                    />
                   )
                 case 'send_by_scan':
                   return (

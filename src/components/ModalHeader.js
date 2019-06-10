@@ -10,7 +10,7 @@ const closeArrow = () => {
 
 export default class ModalHeader extends React.Component {
   render() {
-    let { closeClick, actionText = undefined, actionClick = undefined, actionEnabled } = this.props
+    let { closeClick, actionText = undefined, actionClick = undefined, actionEnabled, title } = this.props
 
     return (
       <div className="md-ModalHeader">
@@ -22,6 +22,7 @@ export default class ModalHeader extends React.Component {
         >
           {closeArrow()}
         </div>
+        {title ? <h2 className="md-ModalHeader-Title">{title}</h2> : null}
         {actionText ? (
           <button
             className="md-ModalHeader-Action"

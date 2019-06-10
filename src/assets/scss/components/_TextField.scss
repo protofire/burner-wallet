@@ -26,4 +26,8 @@
 .sw-TextField-Icon {
   flex-shrink: 0;
   margin-right: 10px;
+
+  &[disabled] {
+    opacity: 0.4;
+  }
 }
