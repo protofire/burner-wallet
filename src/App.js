@@ -1751,41 +1751,16 @@ class App extends Component {
                     </React.Fragment>
                   )
                 case 'loader':
-                  return (
-                    <div>
-                      <div style={{ zIndex: 1, position: 'relative', color: '#dddddd' }}>
-                        <NavCard title={'Sending...'} goBack={this.goBack.bind(this)} darkMode={true} />
-                      </div>
-                      <Loader loaderImage={LOADERIMAGE} mainStyle={mainStyle} />
-                    </div>
-                  )
+                  return <Loader text="Sending..." />
                 case 'reader':
-                  return (
-                    <div>
-                      <div style={{ zIndex: 1, position: 'relative', color: '#dddddd' }}>
-                        <NavCard title={'Reading QRCode...'} goBack={this.goBack.bind(this)} darkMode={true} />
-                      </div>
-                      <Loader loaderImage={LOADERIMAGE} mainStyle={mainStyle} />
-                    </div>
-                  )
+                  return <Loader text="Reading QRCode..." />
                 case 'claimer':
-                  return (
-                    <React.Fragment>
-                      <div style={{ zIndex: 1, position: 'relative', color: '#dddddd' }}>
-                        <NavCard title={'Claiming...'} goBack={this.goBack.bind(this)} darkMode={true} />
-                      </div>
-                      <Loader loaderImage={LOADERIMAGE} mainStyle={mainStyle} />
-                    </React.Fragment>
-                  )
+                  return <Loader text="Claiming..." />
                 default:
                   return <div>unknown view</div>
               }
             })()}
-          {(false || !web3) /*|| !this.checkNetwork() */ && (
-            <div>
-              <Loader loaderImage={LOADERIMAGE} mainStyle={mainStyle} />
-            </div>
-          )}
+          {(false || !web3) && <Loader />}
           <Dapparatus
             config={{
               DEBUG: false,

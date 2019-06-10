@@ -1,0 +1,34 @@
+@import '../helpers/variables';
+
+.sw-Loader {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  padding: $main-wrapper-padding;
+}
+
+.sw-Loader-Logo {
+  margin-bottom: 25px;
+  max-width: 80%;
+}
+
+.sw-Loader-Text {
+  color: #000;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 1.35;
+  padding: 0 30px;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.sw-Loader-Progress {
+  background-color: rgba(#990d19, 0.8);
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  height: 3px;
+  margin-top: 40px;
+}

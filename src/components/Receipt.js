@@ -45,13 +45,11 @@ export default class Receive extends React.Component {
       <div className="sw-ModalContainer">
         <ModalHeader closeClick={close} />
         <div className="sw-ModalScrollingWrapper">
+          <div className="md-Receipt-Title">Transaction Succeeded</div>
           <div className="md-Receipt-AvatarWrapper">
             <Blockie address={receipt.to} config={{ size: BockieSize }} />
           </div>
-          <div className="md-Receipt-Title">Transaction Succeeded</div>
-          <div className="md-Receipt-SentTo">
-            <strong>Sent To:</strong> <div className="md-Receipt-SentToAddress">{receipt.to}</div>
-          </div>
+          <div className="md-Receipt-SentTo">{receipt.to}</div>
           <div className="md-Receipt-Amount">
             <strong>Amount:</strong> {sendAmount}
           </div>
