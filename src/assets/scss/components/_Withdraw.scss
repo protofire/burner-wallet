@@ -1,0 +1,42 @@
+$avatar-dimensions: 100px;
+
+.wd-Withdraw-AvatarWrapper {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-shrink: 0;
+  height: $avatar-dimensions;
+  justify-content: center;
+  margin: 0 auto 15px;
+  min-height: $avatar-dimensions;
+  min-width: $avatar-dimensions;
+  overflow: hidden;
+  width: $avatar-dimensions;
+
+  img,
+  canvas {
+      display: block;
+      height: $avatar-dimensions !important;
+      width: auto !important;
+  }
+}
+
+.wd-Withdraw-Address {
+  color: #000;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.wd-Withdraw-Amount {
+  color: #000;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 20px;
+}

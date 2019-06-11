@@ -1,0 +1,8 @@
+assets
+config
+public
+node_modules
+src/i18n
+src/contracts
+src/services
+src/assets

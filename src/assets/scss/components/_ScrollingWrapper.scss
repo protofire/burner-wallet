@@ -1,0 +1,6 @@
+@import "../helpers/variables";
+
+.sw-ScrollingWrapper {
+    height: calc(100% - #{ $footer-height });
+    overflow: scroll;
+}

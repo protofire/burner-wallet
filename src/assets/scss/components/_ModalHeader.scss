@@ -1,0 +1,49 @@
+@import "../helpers/variables";
+
+.md-ModalHeader {
+  display: flex;
+  height: $modal-header-height;
+  justify-content: space-between;
+  padding-left: $main-wrapper-padding;
+  padding-right: $main-wrapper-padding;
+  padding-top: 18px;
+}
+
+.md-ModalHeader-Close {
+  &:active,
+  &:focus {
+    opacity: 0.6;
+  }
+}
+
+.md-ModalHeader-Action {
+  background-color: transparent;
+  border: none;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  outline: none;
+  padding: 0;
+  text-align: center;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
+
+  &:active,
+  &:focus {
+    opacity: 0.6;
+  }
+}
+
+.md-ModalHeader-Title {
+  align-self: center;
+  color: #000;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 auto;
+  padding: 0 10px;
+  text-align: center;
+}

@@ -1,0 +1,10 @@
+@import "../helpers/variables";
+
+.sw-ModalScrollingWrapper {
+  height: calc(100% - #{ $modal-header-height });
+  overflow: scroll;
+  padding-bottom: $main-wrapper-padding;
+  padding-left: $main-wrapper-padding;
+  padding-right: $main-wrapper-padding;
+  padding-top: 25px;
+}

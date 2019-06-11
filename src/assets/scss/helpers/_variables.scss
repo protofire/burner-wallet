@@ -1,0 +1,29 @@
+// base colors
+$base-border-color: #dfdfdf;
+$base-text-color: #000;
+$base-text-color-light: #9b9b9b;
+
+// typography
+$base-font-size: 14px;
+
+// paths
+$base-images-path: '../../assets/images';
+
+// layout
+$container-max-width: 1000px;
+$container-horizontal-padding-desktop: 20px;
+$container-horizontal-padding-tablet: 20px;
+$container-horizontal-padding-mobile: 10px;
+$main-wrapper-padding: 10px;
+
+// responsive breakpoints
+$breakpoint-xs: 320px;
+$breakpoint-sm: 480px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1024px;
+$breakpoint-xxl: 1280px;
+$breakpoint-xxxl: 1366px;
+
+$footer-height: 55px;
+$modal-header-height: 36px;

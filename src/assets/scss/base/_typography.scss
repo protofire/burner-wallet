@@ -1,0 +1,37 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  background-color: #fff;
+  color: #000;
+  font-family: "Roboto", sans-serif;
+}
+.text-light {
+  font-weight: 300;
+}
+
+.text-normal {
+  font-weight: 400;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}

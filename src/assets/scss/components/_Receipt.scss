@@ -1,0 +1,63 @@
+$avatar-dimensions: 100px;
+
+.md-Receipt-AvatarWrapper {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-shrink: 0;
+  height: $avatar-dimensions;
+  justify-content: center;
+  margin: 0 auto 15px;
+  min-height: $avatar-dimensions;
+  min-width: $avatar-dimensions;
+  overflow: hidden;
+  width: $avatar-dimensions;
+
+  img,
+  canvas {
+      display: block;
+      height: $avatar-dimensions !important;
+      width: auto !important;
+  }
+}
+
+.md-Receipt-Title {
+  color: #000;
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.md-Receipt-SentTo {
+  color: #000;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.md-Receipt-Amount {
+  color: #000;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.35;
+  margin-bottom: 10px;
+  padding: 0 30px;
+}
+
+.md-Receipt-Message {
+  color: #000;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.35;
+  padding: 0 30px;
+}

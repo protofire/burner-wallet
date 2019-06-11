@@ -1,45 +1,54 @@
-import React from 'react';
-import Ruler from "./Ruler";
-import Balance from "./Balance";
+import ModalHeader from './ModalHeader'
+import React from 'react'
 import cookie from 'react-cookies'
-import {CopyToClipboard} from "react-copy-to-clipboard";
-import Blockies from 'react-blockies';
-import { scroller } from 'react-scroll'
-import i18n from '../i18n';
-const queryString = require('query-string');
+import i18n from '../i18n'
+
+const queryString = require('query-string')
+const qrIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24.044" height="24" viewBox="0 0 24.044 24">
+      <path d="M0 11.1h11.1V0H0zm1.728-9.375h7.644v7.644H1.728z" dataName="Path 4" />
+      <path d="M3.56 3.56h3.982v3.983H3.56z" dataName="Path 5" />
+      <path d="M24.041 0h-11.1v11.1h11.1zm-1.728 9.375h-7.647V1.728h7.644v7.647z" dataName="Path 6" />
+      <path d="M16.501 3.56h3.983v3.983h-3.983z" dataName="Path 7" />
+      <path d="M0 23.998h11.1v-11.1H0zm1.728-9.372h7.644v7.644H1.728z" dataName="Path 8" />
+      <path d="M3.56 16.461h3.982v3.983H3.56z" dataName="Path 9" />
+      <path d="M17.317 18.99v-1.93h1.93v-1.982h-1.93v-1.93h-1.982v1.93h-1.93v1.981h1.93v1.93z" dataName="Path 10" />
+      <path d="M23.408 19.236h-1.93v-1.93h-1.981v1.93h-1.931v1.981h1.93v1.93h1.981v-1.93h1.93z" dataName="Path 11" />
+      <path d="M23.902 17.773v-4.354h-.149v-.518h-4.358v1.981h2.525v2.894h1.981z" dataName="Path 12" />
+      <path d="M15.064 19.037h-1.981v4.358h4.506v-1.981h-2.525z" dataName="Path 13" />
+    </svg>
+  )
+}
 
 export default class SendToAddress extends React.Component {
-
   constructor(props) {
-    super(props);
-
-
-
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!! window.location.search",window.location.search,parsed)
+    super(props)
 
     let startAmount = props.amount
-    if(props.scannerState) startAmount = props.scannerState.amount
-    if(!startAmount) {
+
+    if (props.scannerState) startAmount = props.scannerState.amount
+    if (!startAmount) {
       startAmount = cookie.load('sendToStartAmount')
-    }else{
+    } else {
       cookie.save('sendToStartAmount', startAmount, { path: '/', maxAge: 60 })
     }
-    let startMessage= props.message
-    if(props.scannerState) startMessage = props.scannerState.message
-    if(!startMessage) {
+    let startMessage = props.message
+    if (props.scannerState) startMessage = props.scannerState.message
+    if (!startMessage) {
       startMessage = cookie.load('sendToStartMessage')
-    }else{
+    } else {
       cookie.save('sendToStartMessage', startMessage, { path: '/', maxAge: 60 })
     }
 
     let extraMessage = props.extraMessage
-    if(props.scannerState) extraMessage = props.scannerState.extraMessage
+    if (props.scannerState) extraMessage = props.scannerState.extraMessage
 
-    let toAddress = ""
-    if(props.scannerState) toAddress = props.scannerState.toAddress
-    if(!toAddress) {
+    let toAddress = ''
+    if (props.scannerState) toAddress = props.scannerState.toAddress
+    if (!toAddress) {
       toAddress = cookie.load('sendToAddress')
-    }else{
+    } else {
       cookie.save('sendToAddress', toAddress, { path: '/', maxAge: 60 })
     }
 
@@ -48,276 +57,236 @@ export default class SendToAddress extends React.Component {
       message: startMessage,
       toAddress: toAddress,
       extraMessage: extraMessage,
-      fromEns: "",
-      canSend: false,
+      fromEns: '',
+      canSend: false
     }
 
-    let startingAmount = 0.15
-    if(props.amount){
-      startingAmount = props.amount
-    }
-    if(window.location.pathname){
-      if(window.location.pathname.length==43){
+    if (window.location.pathname) {
+      if (window.location.pathname.length === 43) {
         initialState.toAddress = window.location.pathname.substring(1)
-      }else if(window.location.pathname.length>40) {
-      //    console.log("window.location.pathname",window.location.pathname)
-      //  console.log("parseAndCleanPath...")
-        initialState = Object.assign(initialState,this.props.parseAndCleanPath(window.location.pathname))
-      //  console.log("parseAndCleanPath:",initialState)
+      } else if (window.location.pathname.length > 40) {
+        initialState = Object.assign(initialState, this.props.parseAndCleanPath(window.location.pathname))
       }
     }
 
-    const parsed = queryString.parse(window.location.search);
-    if(parsed){
+    const parsed = queryString.parse(window.location.search)
+    if (parsed) {
       initialState.params = parsed
     }
 
     this.state = initialState
-  //  console.log("SendToAddress constructor",this.state)
-    window.history.pushState({},"", "/");
-
-
-
+    window.history.pushState({}, '', '/')
   }
 
   updateState = async (key, value) => {
-    if(key=="amount"){
+    if (key === 'amount') {
       cookie.save('sendToStartAmount', value, { path: '/', maxAge: 60 })
-    }
-    else if(key=="message"){
+    } else if (key === 'message') {
       cookie.save('sendToStartMessage', value, { path: '/', maxAge: 60 })
-    }
-    else if(key=="toAddress"){
+    } else if (key === 'toAddress') {
       cookie.save('sendToAddress', value, { path: '/', maxAge: 60 })
     }
-    this.setState({ [key]: value },()=>{
-      this.setState({ canSend: this.canSend() },()=>{
-        if(key!="message"){
+    this.setState({ [key]: value }, () => {
+      this.setState({ canSend: this.canSend() }, () => {
+        if (key !== 'message') {
           this.bounceToAmountIfReady()
         }
       })
-    });
-    if(key=="toAddress"){
-      this.setState({fromEns:""})
-      //setTimeout(()=>{
-      //  this.scrollToBottom()
-      //},30)
+    })
+    if (key === 'toAddress') {
+      this.setState({ fromEns: '' })
     }
-    if(key=="toAddress"&&value.indexOf(".eth")>=0){
-      console.log("Attempting to look up ",value)
+    if (key === 'toAddress' && value.indexOf('.eth') >= 0) {
       let addr = await this.props.ensLookup(value)
-      console.log("Resolved:",addr)
-      if(addr!="0x0000000000000000000000000000000000000000"){
-        this.setState({toAddress:addr,fromEns:value},()=>{
-          if(key!="message"){
+
+      if (addr !== '0x0000000000000000000000000000000000000000') {
+        this.setState({ toAddress: addr, fromEns: value }, () => {
+          if (key !== 'message') {
             this.bounceToAmountIfReady()
           }
         })
       }
     }
-  };
-  bounceToAmountIfReady(){
-    if(this.state.toAddress && this.state.toAddress.length === 42){
-      this.amountInput.focus();
+  }
+
+  bounceToAmountIfReady() {
+    if (this.state.toAddress && this.state.toAddress.length === 42) {
+      this.amountInput.focus()
     }
   }
-  componentDidMount(){
+
+  componentDidMount() {
+    this.addressInput.blur()
     this.setState({ canSend: this.canSend() })
-    setTimeout(()=>{
-      if(!this.state.toAddress && this.addressInput){
-        this.addressInput.focus();
-      }else if(!this.state.amount && this.amountInput){
-        this.amountInput.focus();
-      }else if(this.messageInput){
-        this.messageInput.focus();
-        setTimeout(()=>{
-          this.scrollToBottom()
-        },30)
-      }
-    },350)
   }
 
   canSend() {
-    /*const resolvedAddress = await this.ensProvider.resolveName(this.state.toAddress)
-    console.log(`RESOLVED ADDRESS ${resolvedAddress}`)
-    if(resolvedAddress != null){
-      this.setState({
-        toAddress: resolvedAddress
-      })
-    }*/
-    return (this.state.toAddress && this.state.toAddress.length === 42 && (this.state.amount>0 || this.state.message))
-  }
-
-  scrollToBottom(){
-    console.log("scrolling to bottom")
-    scroller.scrollTo('theVeryBottom', {
-      duration: 500,
-      delay: 30,
-      smooth: "easeInOutCubic",
-    })
+    return this.state.toAddress && this.state.toAddress.length === 42 && (this.state.amount > 0 || this.state.message)
   }
 
   send = async () => {
-    let { toAddress, amount } = this.state;
-    let {ERC20TOKEN, dollarDisplay, convertToDollar} = this.props
+    let { toAddress, amount } = this.state
+    let { ERC20TOKEN, dollarDisplay, convertToDollar } = this.props
 
     amount = convertToDollar(amount)
-    console.log("CONVERTED TO DOLLAR AMOUNT",amount)
 
-    if(this.state.canSend){
-      if(ERC20TOKEN){
-        console.log("this is a token")
-      }else{
-        console.log("this is not a token")
+    if (this.state.canSend) {
+      if (ERC20TOKEN) {
+        console.log('this is a token')
+      } else {
+        console.log('this is not a token')
       }
-      console.log("ERC20TOKEN",ERC20TOKEN,"this.props.balance",parseFloat(this.props.balance),"amount",parseFloat(amount))
+      console.log(
+        'ERC20TOKEN',
+        ERC20TOKEN,
+        'this.props.balance',
+        parseFloat(this.props.balance),
+        'amount',
+        parseFloat(amount)
+      )
 
-      if(!ERC20TOKEN && parseFloat(this.props.balance) <= 0){
-        console.log("No funds!?!",ERC20TOKEN,parseFloat(this.props.balance))
-        this.props.changeAlert({type: 'warning', message: "No Funds."})
-      }else if(!ERC20TOKEN && parseFloat(this.props.balance)-0.0001<=parseFloat(amount)){
-        let extraHint = ""
-        if(!ERC20TOKEN && parseFloat(amount)-parseFloat(this.props.balance)<=.01){
-          extraHint = "(gas costs)"
+      if (!ERC20TOKEN && parseFloat(this.props.balance) <= 0) {
+        this.props.changeAlert({ type: 'warning', message: 'No Funds.' })
+      } else if (!ERC20TOKEN && parseFloat(this.props.balance) - 0.0001 <= parseFloat(amount)) {
+        let extraHint = ''
+        if (!ERC20TOKEN && parseFloat(amount) - parseFloat(this.props.balance) <= 0.01) {
+          extraHint = '(gas costs)'
         }
-        this.props.changeAlert({type: 'warning', message: 'Not enough funds: '+dollarDisplay(Math.floor((parseFloat(this.props.balance)-0.0001)*100)/100)+' '+extraHint})
-      }else if((ERC20TOKEN && (parseFloat(this.props.balance)<parseFloat(amount)))){
-        console.log("SO THE BALANCE IS LESS!")
-        this.props.changeAlert({type: 'warning', message: 'Not enough tokens: $'+parseFloat(this.props.balance)})
-      }else{
-        console.log("SWITCH TO LOADER VIEW...",amount)
+        this.props.changeAlert({
+          type: 'warning',
+          message:
+            'Not enough funds: ' +
+            dollarDisplay(Math.floor((parseFloat(this.props.balance) - 0.0001) * 100) / 100) +
+            ' ' +
+            extraHint
+        })
+      } else if (ERC20TOKEN && parseFloat(this.props.balance) < parseFloat(amount)) {
+        this.props.changeAlert({ type: 'warning', message: 'Not enough tokens: $' + parseFloat(this.props.balance) })
+      } else {
         this.props.changeView('loader')
-        setTimeout(()=>{window.scrollTo(0,0)},60)
+        setTimeout(() => {
+          window.scrollTo(0, 0)
+        }, 60)
 
-        console.log("web3",this.props.web3)
         let txData
-        if(this.state.message){
+        if (this.state.message) {
           txData = this.props.web3.utils.utf8ToHex(this.state.message)
         }
-        console.log("txData",txData)
+
         let value = 0
-        console.log("amount",amount)
-        if(amount){
-          value=amount
+        if (amount) {
+          value = amount
         }
 
         cookie.remove('sendToStartAmount', { path: '/' })
         cookie.remove('sendToStartMessage', { path: '/' })
         cookie.remove('sendToAddress', { path: '/' })
 
-        this.props.send(toAddress, value, 120000, txData, (result) => {
-          if(result && result.transactionHash){
-            this.props.goBack();
-            window.history.pushState({},"", "/");
-            /*
-            this.props.changeAlert({
-              type: 'success',
-              message: 'Sent! '+result.transactionHash,
-            });*/
+        this.props.send(toAddress, value, 120000, txData, result => {
+          if (result && result.transactionHash) {
+            this.props.goBack()
+            window.history.pushState({}, '', '/')
 
-            let receiptObj = {to:toAddress,from:result.from,amount:parseFloat(amount),message:this.state.message,result:result}
+            let receiptObj = {
+              to: toAddress,
+              from: result.from,
+              amount: parseFloat(amount),
+              message: this.state.message,
+              result: result
+            }
 
-
-            if(this.state.params){
+            if (this.state.params) {
               receiptObj.params = this.state.params
             }
 
-          //  console.log("CHECKING SCANNER STATE FOR ORDER ID",this.props.scannerState)
-            if(this.props.scannerState&&this.props.scannerState.daiposOrderId){
+            if (this.props.scannerState && this.props.scannerState.daiposOrderId) {
               receiptObj.daiposOrderId = this.props.scannerState.daiposOrderId
             }
 
-            //console.log("SETTING RECEPITE STATE",receiptObj)
             this.props.setReceipt(receiptObj)
-            this.props.changeView("receipt");
+            this.props.changeView('receipt')
           }
         })
       }
-    }else{
-      this.props.changeAlert({type: 'warning', message: i18n.t('send_to_address.error')})
+    } else {
+      this.props.changeAlert({ type: 'warning', message: i18n.t('send_to_address.error') })
     }
-  };
+  }
 
   render() {
-    let { canSend, toAddress } = this.state;
-    let {dollarSymbol} = this.props
-
-    /*let sendMessage = ""
-    if(this.state.message){
-      sendMessage = (
-        <div className="form-group w-100">
-          <label htmlFor="amount_input">For</label>
-          <div>
-            {decodeURI(this.state.message)}
-          </div>
-        </div>
-      )
-    }*/
-
-    let messageText = "Message"
-    if(this.state.extraMessage){
-      messageText = this.state.extraMessage
-    }
-
+    let { canSend, toAddress, amount, message } = this.state
+    let { close, defaultBalanceDisplay } = this.props
 
     let amountInputDisplay = (
-      <input type="number" className="form-control" placeholder="0.00" value={this.state.amount}
-          ref={(input) => { this.amountInput = input; }}
-             onChange={event => this.updateState('amount', event.target.value)} />
+      <input
+        className="sw-TextField-Text"
+        placeholder={i18n.t('send_to_address.send_amount')}
+        type="number"
+        value={amount}
+        ref={input => {
+          this.amountInput = input
+        }}
+        onChange={event => this.updateState('amount', event.target.value)}
+      />
     )
-    if(this.props.scannerState&&this.props.scannerState.daiposOrderId){
+
+    if (this.props.scannerState && this.props.scannerState.daiposOrderId) {
       amountInputDisplay = (
-        <input type="number" readOnly className="form-control" placeholder="0.00" value={this.state.amount}
-            ref={(input) => { this.amountInput = input; }}
-               onChange={event => this.updateState('amount', event.target.value)} />
+        <input
+          className="sw-TextField-Text"
+          placeholder={i18n.t('send_to_address.send_amount')}
+          readOnly
+          type="number"
+          value={amount}
+          ref={input => {
+            this.amountInput = input
+          }}
+          onChange={event => this.updateState('amount', event.target.value)}
+        />
       )
     }
 
     return (
-      <div>
-        <div className="content row">
-          <div className="form-group w-100">
-            <div className="form-group w-100">
-              <label htmlFor="amount_input">{i18n.t('send_to_address.to_address')}</label>
-              <div className="input-group">
-                <input type="text" className="form-control" placeholder="0x..." value={this.state.toAddress}
-                  ref={(input) => { this.addressInput = input; }}
-                       onChange={event => this.updateState('toAddress', event.target.value)} />
-                <div className="input-group-append" onClick={() => {
-                  this.props.openScanner({view:"send_to_address"})
-                }}>
-                  <span className="input-group-text" id="basic-addon2" style={this.props.buttonStyle.primary}>
-                    <i style={{color:"#FFFFFF"}} className="fas fa-qrcode" />
-                  </span>
-                </div>
+      <div className="sw-ModalContainer">
+        <ModalHeader closeClick={close} actionText="Send" actionClick={this.send} actionEnabled={canSend} />
+        <div className="sw-ModalScrollingWrapper">
+          <div className="md-Send-MainToken">{defaultBalanceDisplay}</div>
+          <div className="sw-FormWrapper">
+            <div className="sw-TextField">
+              <input
+                className="sw-TextField-Text"
+                placeholder={i18n.t('send_to_address.to_address')}
+                type="text"
+                value={toAddress}
+                ref={input => {
+                  this.addressInput = input
+                }}
+                onChange={event => this.updateState('toAddress', event.target.value)}
+              />
+              <div
+                className="sw-TextField-Icon"
+                onClick={() => {
+                  this.props.openScanner({ view: 'send_to_address' })
+                }}
+              >
+                {qrIcon()}
               </div>
             </div>
-            <div>  { this.state.toAddress && this.state.toAddress.length==42 &&
-              <CopyToClipboard text={toAddress.toLowerCase()}>
-                <div style={{cursor:"pointer"}} onClick={() => this.props.changeAlert({type: 'success', message: toAddress.toLowerCase()+' copied to clipboard'})}>
-                  <div style={{opacity:0.33}}>{this.state.fromEns}</div>
-                  <Blockies seed={toAddress.toLowerCase()} scale={10}/>
-                </div>
-              </CopyToClipboard>
-            }</div>
-            <label htmlFor="amount_input">{i18n.t('send_to_address.send_amount')}</label>
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <div className="input-group-text">{dollarSymbol}</div>
-              </div>
-              {amountInputDisplay}
-            </div>
-            <div className="form-group w-100" style={{marginTop:20}}>
-              <label htmlFor="amount_input">{messageText}</label>
-              <input type="text" className="form-control" placeholder="optional unencrypted message" value={this.state.message}
-                ref={(input) => { this.messageInput = input; }}
-                     onChange={event => this.updateState('message', event.target.value)} />
+            <div className="sw-TextField">{amountInputDisplay}</div>
+            <div className="sw-TextField">
+              <input
+                className="sw-TextField-Text"
+                maxLength="128"
+                placeholder="Message"
+                type="text"
+                value={message}
+                ref={input => {
+                  this.messageInput = input
+                }}
+                onChange={event => this.updateState('message', event.target.value)}
+              />
             </div>
           </div>
-          <button name="theVeryBottom" className={`btn btn-lg w-100 ${canSend ? '' : 'disabled'}`} style={this.props.buttonStyle.primary}
-                  onClick={this.send}>
-            Send
-          </button>
         </div>
       </div>
     )

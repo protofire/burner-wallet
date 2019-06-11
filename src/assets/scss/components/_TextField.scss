@@ -1,0 +1,33 @@
+.sw-TextField {
+  border-bottom: solid 1px #ddd;
+  display: flex;
+  margin-bottom: 25px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sw-TextField-Text {
+  border: none;
+  flex-grow: 1;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.33;
+  outline: none;
+  padding: 0 10px 10px;
+
+  ::placeholder {
+    color: #bbb;
+  }
+
+}
+
+.sw-TextField-Icon {
+  flex-shrink: 0;
+  margin-right: 10px;
+
+  &[disabled] {
+    opacity: 0.4;
+  }
+}

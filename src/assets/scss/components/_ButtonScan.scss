@@ -1,0 +1,22 @@
+@import '../helpers/variables';
+
+.sw-ButtonScan {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  border: solid 1px #f4f4f4;
+  bottom: $footer-height + 20;
+  box-shadow: 2px 3px 7px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  height: 68px;
+  justify-content: center;
+  position: fixed;
+  right: $main-wrapper-padding;
+  width: 68px;
+  z-index: 1234;
+
+  &:focus,
+  &:active {
+    opacity: 0.6;
+  }
+}

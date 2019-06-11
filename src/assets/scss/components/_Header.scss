@@ -1,0 +1,26 @@
+@import '../helpers/variables';
+
+.sw-Header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 20px;
+  padding: 15px $main-wrapper-padding 0;
+  width: 100%;
+}
+
+.sw-Header-Icons {
+  align-items: center;
+  display: flex;
+}
+
+.sw-Header-Icon {
+  margin-right: 18px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.sw-Header-Icon-toggle {
+    margin-top: 3px;
+  }
+}
