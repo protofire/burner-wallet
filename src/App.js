@@ -1,61 +1,58 @@
-import React, { Component } from 'react'
-import { ContractLoader, Dapparatus, Transactions, Gas, Events } from 'dapparatus'
-import Web3 from 'web3'
-import axios from 'axios'
-import { I18nextProvider } from 'react-i18next'
-import i18n from './i18n'
-import gasless from 'tabookey-gasless'
+import Admin from './components/Admin'
+import Advanced from './components/Advanced'
+import Alert from './components/Alert'
+import Balance from './components/Balance'
+import Bottom from './components/Bottom'
+import BurnWallet from './components/BurnWallet'
+import CashOut from './components/CashOut'
+import Exchange from './components/Exchange'
 import Header from './components/Header'
+import History from './components/History'
+import Loader from './components/Loader'
+import MainCard from './components/MainCard'
+import MainToken from './components/MainToken'
+import MoreButtons from './components/MoreButtons'
 import NavCard from './components/NavCard'
+import RNMessageChannel from 'react-native-webview-messaging'
+import React, { Component } from 'react'
+import Receipt from './components/Receipt'
+import Receive from './components/Receive'
+import RecentTransactions from './components/RecentTransactions'
+import RequestFunds from './components/RequestFunds'
+import SendBadge from './components/SendBadge'
 import SendByScan from './components/SendByScan'
 import SendToAddress from './components/SendToAddress'
-import SendBadge from './components/SendBadge'
-import WithdrawFromPrivate from './components/WithdrawFromPrivate'
-import RequestFunds from './components/RequestFunds'
 import SendWithLink from './components/SendWithLink'
-import Receive from './components/Receive'
 import Share from './components/Share'
 import ShareLink from './components/ShareLink'
-import Balance from './components/Balance'
-import MainToken from './components/MainToken'
-import Receipt from './components/Receipt'
-import CashOut from './components/CashOut'
-import MainCard from './components/MainCard'
-import History from './components/History'
-import Advanced from './components/Advanced'
-import MoreButtons from './components/MoreButtons'
-import Admin from './components/Admin'
 import Vendor from './components/Vendor'
 import Vendors from './components/Vendors'
-import RecentTransactions from './components/RecentTransactions'
-import Alert from './components/Alert'
-import Loader from './components/Loader'
-import BurnWallet from './components/BurnWallet'
-import Exchange from './components/Exchange'
-import Bottom from './components/Bottom'
-import namehash from 'eth-ens-namehash'
-import incogDetect from './services/incogDetect.js'
+import Web3 from 'web3'
+import WithdrawFromPrivate from './components/WithdrawFromPrivate'
 import Wyre from './services/wyre'
-
-//https://github.com/lesnitsky/react-native-webview-messaging/blob/v1/examples/react-native/web/index.js
-import RNMessageChannel from 'react-native-webview-messaging'
-
+import axios from 'axios'
 import bufficorn from './assets/img/bufficorn.png'
 import burnerlogo from './assets/img/burnerwallet.png'
 import customRPCHint from './assets/img/customRPCHint.png'
 import cypherpunk from './assets/img/cypherpunk.png'
 import dai from './assets/img/dai.jpg'
 import eth from './assets/img/ethereum.png'
-import protofire from './assets/img/protofire.png'
+import gasless from 'tabookey-gasless'
+import i18n from './i18n'
+import incogDetect from './services/incogDetect.js'
 import mainToken from './assets/img/image-3@3x.jpg'
+import namehash from 'eth-ens-namehash'
+import protofire from './assets/img/protofire.png'
 import xdai from './assets/img/xdai.jpg'
+import { ContractLoader, Dapparatus, Transactions, Gas, Events } from 'dapparatus'
+import { I18nextProvider } from 'react-i18next'
+import { exitFullscreenIcon } from './components/ExitFullscreenIcon'
+import { fullscreenIcon } from './components/FullscreenIcon'
 
-let base64url = require('base64url')
 const EthCrypto = require('eth-crypto')
-
-//const POA_XDAI_NODE = "https://dai-b.poa.network"
 const POA_XDAI_NODE = 'https://dai.poa.network'
 
+let base64url = require('base64url')
 let XDAI_PROVIDER = POA_XDAI_NODE
 let WEB3_PROVIDER
 let CLAIM_RELAY
@@ -64,9 +61,8 @@ let ERC20VENDOR
 let ERC20IMAGE
 let ERC20NAME
 let LOADERIMAGE = burnerlogo
-let HARDCODEVIEW // = "loader"// = "receipt"
+let HARDCODEVIEW
 let FAILCOUNT = 0
-
 let mainStyle = {
   width: '100%',
   height: '100%',
@@ -76,7 +72,6 @@ let mainStyle = {
   mainColorAlt: '#fa7d36',
   mainColor: '#F76B1C'
 }
-
 let title = i18n.t('app_name')
 let titleImage = (
   <span style={{ paddingRight: 20, paddingLeft: 16 }}>
@@ -84,11 +79,9 @@ let titleImage = (
   </span>
 )
 
-//<i className="fas fa-fire" />
 if (window.location.hostname.indexOf('localhost') >= 0 || window.location.hostname.indexOf('10.0.0.107') >= 0) {
   XDAI_PROVIDER = 'http://localhost:8545'
   WEB3_PROVIDER = 'http://localhost:8545'
-  CLAIM_RELAY = 'http://localhost:18462'
   if (false) {
     ERC20NAME = false
     ERC20TOKEN = false
@@ -98,16 +91,13 @@ if (window.location.hostname.indexOf('localhost') >= 0 || window.location.hostna
     ERC20TOKEN = 'ERC20Vendable'
     ERC20IMAGE = protofire
     WEB3_PROVIDER = POA_XDAI_NODE
-    LOADERIMAGE = protofire
   }
 } else if (window.location.hostname.indexOf('s.xdai.io') >= 0) {
   WEB3_PROVIDER = POA_XDAI_NODE
   CLAIM_RELAY = 'https://x.xdai.io'
   ERC20TOKEN = false //'Burner'
 } else if (window.location.hostname.indexOf('wallet.galleass.io') >= 0) {
-  //WEB3_PROVIDER = "https://rinkeby.infura.io/v3/e0ea6e73570246bbb3d4bd042c4b5dac";
   WEB3_PROVIDER = 'http://localhost:8545'
-  //CLAIM_RELAY = 'https://x.xdai.io'
   ERC20TOKEN = false //'Burner'
   document.domain = 'galleass.io'
 } else if (window.location.hostname.indexOf('qreth') >= 0) {
@@ -207,6 +197,7 @@ const MAX_BLOCK_TO_LOOK_BACK = 512 //don't look back more than 512 blocks
 let metaReceiptTracker = {}
 let dollarSymbol = '$'
 let dollarConversion = 1.0
+
 let convertToDollar = amount => {
   return parseFloat(amount) / dollarConversion
 }
@@ -214,14 +205,12 @@ let convertFromDollar = amount => {
   return parseFloat(amount) * dollarConversion
 }
 let dollarDisplay = amount => {
-  let floatAmount = parseFloat(amount)
   amount = Math.floor(amount * 100) / 100
   return dollarSymbol + convertFromDollar(amount).toFixed(2)
 }
 
 let interval
 let intervalLong
-let originalStyle = {}
 
 class App extends Component {
   constructor(props) {
@@ -252,7 +241,8 @@ class App extends Component {
       ethprice: 0.0,
       hasUpdateOnce: false,
       badges: {},
-      selectedBadge: false
+      selectedBadge: false,
+      isFullscreen: false
     }
     this.alertTimeout = null
 
@@ -260,9 +250,17 @@ class App extends Component {
       RNMessageChannel.on('json', update => {
         try {
           let safeUpdate = {}
-          if (update.title) safeUpdate.title = update.title
-          if (update.extraHeadroom) safeUpdate.extraHeadroom = update.extraHeadroom
-          if (update.possibleNewPrivateKey) safeUpdate.possibleNewPrivateKey = update.possibleNewPrivateKey
+
+          if (update.title) {
+            safeUpdate.title = update.title
+          }
+          if (update.extraHeadroom) {
+            safeUpdate.extraHeadroom = update.extraHeadroom
+          }
+          if (update.possibleNewPrivateKey) {
+            safeUpdate.possibleNewPrivateKey = update.possibleNewPrivateKey
+          }
+
           this.setState(safeUpdate, () => {
             if (this.state.possibleNewPrivateKey) {
               this.dealWithPossibleNewPrivateKey()
@@ -276,9 +274,37 @@ class App extends Component {
       console.log(e)
     }
   }
+
+  toggleFullscreen = () => {
+    const elem = document.documentElement
+
+    if (this.state.isFullscreen) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen()
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen()
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen()
+      }
+    } else {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen()
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen()
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen()
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen()
+      }
+    }
+
+    this.setState({ isFullscreen: !this.state.isFullscreen })
+  }
+
   parseAndCleanPath(path) {
     let parts = path.split(';')
-    //console.log("PARTS",parts)
     let state = {}
     if (parts.length > 0) {
       state.toAddress = parts[0].replace('/', '')
@@ -300,7 +326,6 @@ class App extends Component {
         .replaceAll('%3A', ':')
         .replaceAll('%2F', '/')
     }
-    //console.log("STATE",state)
     return state
   }
   selectBadge(id) {
@@ -400,7 +425,6 @@ class App extends Component {
         if (privateKey.indexOf('0x') != 0) {
           privateKey = '0x' + privateKey
         }
-        //console.log("!!! possibleNewPrivateKey",privateKey)
         this.setState({ possibleNewPrivateKey: privateKey })
         window.history.pushState({}, '', '/')
       } else if (window.location.pathname.indexOf('/vendors;') == 0) {
@@ -460,21 +484,12 @@ class App extends Component {
 
     if (ERC20TOKEN && this.state.contracts) {
       let gasBalance = await this.state.web3.eth.getBalance(this.state.account)
-      gasBalance = this.state.web3.utils.fromWei('' + gasBalance, 'ether')
-      //console.log("Getting balanceOf "+this.state.account+" in contract ",this.state.contracts[ERC20TOKEN])
       let tokenBalance = await this.state.contracts[ERC20TOKEN].balanceOf(this.state.account).call()
-      //console.log("balance is ",tokenBalance)
       tokenBalance = this.state.web3.utils.fromWei('' + tokenBalance, 'ether')
-
-      //console.log("Getting admin from ",this.state.contracts[ERC20VENDOR])
-      let isAdmin = false //await this.state.contracts[ERC20VENDOR].isAdmin(this.state.account).call()
-      //console.log("ISADMIN",this.state.account,isAdmin)
-      let isVendor = { isAllowed: false } //await this.state.contracts[ERC20VENDOR].vendors(this.state.account).call()
-      //console.log("isVendor",isVendor)
-
+      let isAdmin = false
+      let isVendor = { isAllowed: false }
       let vendorObject = this.state.vendorObject
-      let products = [] //this.state.products
-      //console.log("isVendor",isVendor,"SAVING PRODUCTS",products)
+      let products = []
 
       this.setState({
         gasBalance: gasBalance,
@@ -586,12 +601,9 @@ class App extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     let { network, web3 } = this.state
-    if (web3 && network !== prevState.network /*&& !this.checkNetwork()*/) {
+
+    if (web3 && network !== prevState.network) {
       console.log('WEB3 DETECTED BUT NOT RIGHT NETWORK', web3, network, prevState.network)
-      //this.changeAlert({
-      //  type: 'danger',
-      //  message: 'Wrong Network. Please use Custom RPC endpoint: https://dai.poa.network or turn off MetaMask.'
-      //}, false)
     }
   }
   checkNetwork() {
@@ -761,12 +773,10 @@ class App extends Component {
     if (block) {
       let transactions = block.transactions
 
-      //console.log("transactions",transactions)
       for (let t in transactions) {
-        //console.log("TX",transactions[t])
         let tx = await this.state.web3.eth.getTransaction(transactions[t])
+
         if (tx && tx.to && tx.from) {
-          //console.log("EEETRTTTTERTETETET",tx)
           let smallerTx = {
             hash: tx.hash,
             to: tx.to.toLowerCase(),
@@ -786,7 +796,7 @@ class App extends Component {
 
               try {
                 smallerTx.data = this.state.web3.utils.hexToUtf8(tx.input)
-              } catch (e) { }
+              } catch (e) {}
               if (!smallerTx.data) {
                 smallerTx.data = ' *** unable to decrypt data *** '
               }
@@ -816,7 +826,7 @@ class App extends Component {
             parsedData // encrypted-data
           )
           return endMessage
-        } catch (e) { }
+        } catch (e) {}
       } else {
         //no meta account? maybe try to setup signing keys?
         //maybe have a contract that tries do decrypt? \
@@ -937,7 +947,7 @@ class App extends Component {
         } else {
           try {
             cleanEvent.data = this.state.web3.utils.hexToUtf8(cleanEvent.data)
-          } catch (e) { }
+          } catch (e) {}
         }
       }
       updatedTxs = this.addTxIfAccountMatches(recentTxs, transactionsByAddress, cleanEvent) || updatedTxs
@@ -965,7 +975,6 @@ class App extends Component {
         transactionsByAddress[t].sort(sortByBlockNumberDESC)
       }
       recentTxs = recentTxs.slice(0, 12)
-      //console.log("FULLRECENT",recentTxs)
       this.setState({ fullRecentTxs: recentTxs, fullTransactionsByAddress: transactionsByAddress })
     }
   }
@@ -1252,12 +1261,22 @@ class App extends Component {
                       <div className="sw-ScrollingWrapper">
                         <div className="sw-Header">
                           {header}
-                          <div
-                            className="sw-BtnSettings"
-                            onClick={() => {
-                              this.changeView('advanced')
-                            }}
-                          />
+                          <div className="sw-Header-Icons">
+                            <div
+                              className="sw-Header-Icon"
+                              onClick={() => {
+                                this.toggleFullscreen()
+                              }}
+                            >
+                              {this.state.isFullscreen ? exitFullscreenIcon() : fullscreenIcon()}
+                            </div>
+                            <div
+                              className="sw-Header-Icon sw-BtnSettings"
+                              onClick={() => {
+                                this.changeView('advanced')
+                              }}
+                            />
+                          </div>
                         </div>
                         {defaultBalanceDisplay}
                         <div className="sw-BalanceItemsRow">
@@ -1967,7 +1986,7 @@ let sortByBlockNumber = (a, b) => {
 
 export default App
 
-String.prototype.replaceAll = function (search, replacement) {
+String.prototype.replaceAll = function(search, replacement) {
   var target = this
   return target.replace(new RegExp(search, 'g'), replacement)
 }

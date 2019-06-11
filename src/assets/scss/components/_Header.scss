@@ -1,9 +1,22 @@
 @import '../helpers/variables';
 
 .sw-Header {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 0 20px;
-    padding: 15px $main-wrapper-padding 0;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 20px;
+  padding: 15px $main-wrapper-padding 0;
+  width: 100%;
+}
+
+.sw-Header-Icons {
+  align-items: center;
+  display: flex;
+}
+
+.sw-Header-Icon {
+  margin-right: 15px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
