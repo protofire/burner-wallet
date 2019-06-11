@@ -220,7 +220,7 @@ class App extends Component {
     let cachedViewSetAge = Date.now() - localStorage.getItem('viewSetTime')
     if (HARDCODEVIEW) {
       view = HARDCODEVIEW
-    } else if (cachedViewSetAge < 300000 && cachedView && cachedView != 0) {
+    } else if (cachedViewSetAge < 300000 && cachedView && cachedView !== 0) {
       view = cachedView
     }
     console.log('CACHED VIEW', view)
@@ -354,28 +354,30 @@ class App extends Component {
   saveKey(update) {
     this.setState(update)
   }
+
   detectContext() {
     console.log('DETECTING CONTEXT....')
     //snagged from https://stackoverflow.com/questions/52759238/private-incognito-mode-detection-for-ios-12-safari
+    let contextElement
     incogDetect(result => {
       if (result) {
         console.log('INCOG')
         document.getElementById('main').style.backgroundImage = 'linear-gradient(#862727, #671c1c)'
         document.body.style.backgroundColor = '#671c1c'
-        var contextElement = document.getElementById('context')
+        contextElement = document.getElementById('context')
         contextElement.innerHTML = 'INCOGNITO'
       } else if (typeof web3 !== 'undefined') {
         console.log('NOT INCOG', this.state.metaAccount)
         if (window.web3 && window.web3.currentProvider && window.web3.currentProvider.isMetaMask === true) {
           document.getElementById('main').style.backgroundImage = 'linear-gradient(#553319, #ca6e28)'
           document.body.style.backgroundColor = '#ca6e28'
-          var contextElement = document.getElementById('context')
+          contextElement = document.getElementById('context')
           contextElement.innerHTML = 'METAMASK'
         } else if (this.state.account && !this.state.metaAccount) {
           console.log('~~~*** WEB3', this.state.metaAccount, result)
           document.getElementById('main').style.backgroundImage = 'linear-gradient(#234063, #305582)'
           document.body.style.backgroundColor = '#305582'
-          var contextElement = document.getElementById('context')
+          contextElement = document.getElementById('context')
           contextElement.innerHTML = 'WEB3'
         }
       }
@@ -398,10 +400,10 @@ class App extends Component {
         let rawPK = tempweb3.utils.bytesToHex(base64url.toBuffer(base64encodedPK))
         this.setState({ possibleNewPrivateKey: rawPK })
         window.history.pushState({}, '', '/')
-      } else if (window.location.pathname.length == 43) {
+      } else if (window.location.pathname.length === 43) {
         this.changeView('send_to_address')
         console.log('CHANGE VIEW')
-      } else if (window.location.pathname.length == 134) {
+      } else if (window.location.pathname.length === 134) {
         let parts = window.location.pathname.split(';')
         let claimId = parts[0].replace('/', '')
         let claimKey = parts[1]
@@ -422,12 +424,12 @@ class App extends Component {
           privateKey = window.location.hash
         }
         privateKey = privateKey.replace('#', '')
-        if (privateKey.indexOf('0x') != 0) {
+        if (privateKey.indexOf('0x') !== 0) {
           privateKey = '0x' + privateKey
         }
         this.setState({ possibleNewPrivateKey: privateKey })
         window.history.pushState({}, '', '/')
-      } else if (window.location.pathname.indexOf('/vendors;') == 0) {
+      } else if (window.location.pathname.indexOf('/vendors;') === 0) {
         this.changeView('vendors')
       } else {
         let parts = window.location.pathname.split(';')
@@ -439,7 +441,7 @@ class App extends Component {
           if (parts.length >= 3) {
             extraData = parts[2]
           }
-          if ((parseFloat(sendToAmount) > 0 || extraData) && sendToAddress.length == 42) {
+          if ((parseFloat(sendToAmount) > 0 || extraData) && sendToAddress.length === 42) {
             this.changeView('send_to_address')
           }
         }
@@ -551,7 +553,7 @@ class App extends Component {
     if (this.state && this.state.hasUpdateOnce) {
       if (
         this.state.metaAccount &&
-        this.state.metaAccount.privateKey.replace('0x', '') == this.state.possibleNewPrivateKey.replace('0x', '')
+        this.state.metaAccount.privateKey.replace('0x', '') === this.state.possibleNewPrivateKey.replace('0x', '')
       ) {
         this.setState({ possibleNewPrivateKey: false })
         this.changeAlert({
@@ -625,7 +627,7 @@ class App extends Component {
     let hash = namehash.hash(name)
     console.log('namehash', name, hash)
     let resolver = await this.state.ensContract.methods.resolver(hash).call()
-    if (resolver == '0x0000000000000000000000000000000000000000') return '0x0000000000000000000000000000000000000000'
+    if (resolver === '0x0000000000000000000000000000000000000000') return '0x0000000000000000000000000000000000000000'
     console.log('resolver', resolver)
     let ensResolver = new this.state.mainnetweb3.eth.Contract(require('./contracts/ENSResolver.abi.js'), resolver)
     console.log('ensResolver:', ensResolver)
@@ -896,7 +898,7 @@ class App extends Component {
     for (let t in transactionsByAddress[otherAccount]) {
       if (transactionsByAddress[otherAccount][t].hash === smallerTx.hash) {
         found = true
-        if (!smallerTx.data || transactionsByAddress[otherAccount][t].data == smallerTx.data) {
+        if (!smallerTx.data || transactionsByAddress[otherAccount][t].data === smallerTx.data) {
           // do nothing, it exists
         } else {
           transactionsByAddress[otherAccount][t].data = smallerTx.data
@@ -996,7 +998,7 @@ class App extends Component {
     } = this.state
 
     let networkOverlay = ''
-    if (web3 && !this.checkNetwork() && view != 'exchange') {
+    if (web3 && !this.checkNetwork() && view !== 'exchange') {
       networkOverlay = (
         <React.Fragment>
           >
@@ -1513,7 +1515,7 @@ class App extends Component {
                 case 'share':
                   let url = window.location.protocol + '//' + window.location.hostname
 
-                  if (window.location.port && window.location.port != 80 && window.location.port != 443) {
+                  if (window.location.port && window.location.port !== 80 && window.location.port !== 443) {
                     url = url + ':' + window.location.port
                   }
 
@@ -1838,7 +1840,6 @@ class App extends Component {
                         localStorage.setItem(this.state.account + 'loadedBlocksTop', upperBoundOfSearch)
                         this.setState({ parsingTheChain: false, loadedBlocksTop: upperBoundOfSearch })
                       }
-                      //console.log("~~ DONE PARSING SET ~~")
                     })
                   }
                 })
@@ -1877,13 +1878,9 @@ class App extends Component {
 }
 
 async function tokenSend(to, value, gasLimit, txData, cb) {
-  let { account, web3 } = this.state
-
-  console.log('tokenSend')
-
   let weiValue = this.state.web3.utils.toWei('' + value, 'ether')
-
   let setGasLimit = 60000
+
   if (typeof gasLimit === 'function') {
     cb = gasLimit
   } else if (gasLimit) {
