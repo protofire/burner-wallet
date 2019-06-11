@@ -42,35 +42,6 @@ export default class SendToAddress extends React.Component {
   }
 
   async poll() {
-    if (this.props.contracts && this.props.contracts.Badges) {
-      console.log('okay polling for ' + this.state.fromAddress + ' for badges...')
-      let badgeBalance = await this.props.contracts.Badges.balanceOf(this.state.fromAddress).call()
-      console.log('badgeBalance...', badgeBalance)
-      if (badgeBalance > 0) {
-        let updateBadges = false
-        for (let b = 0; b < badgeBalance; b++) {
-          let thisBadgeId = await this.props.contracts.Badges.tokenOfOwnerByIndex(this.state.fromAddress, b).call()
-          if (!this.state.fromBadges[thisBadgeId]) {
-            let thisBadgeData = await this.props.contracts.Badges.tokenURI(thisBadgeId).call()
-            if (!this.state.fromBadges[thisBadgeId]) {
-              console.log('Getting badge data ', thisBadgeData)
-              let response = axios.get(thisBadgeData).then(response => {
-                console.log('RESPONSE:', response)
-                if (response && response.data) {
-                  this.state.fromBadges[thisBadgeId] = response.data
-                  this.state.fromBadges[thisBadgeId].id = thisBadgeId
-                  updateBadges = true
-                }
-              })
-            }
-          }
-        }
-        if (updateBadges || this.state.badgeBalance !== badgeBalance) {
-          this.setState({ fromBadges: this.state.fromBadges, badgeCount: badgeBalance })
-        }
-      }
-    }
-
     let fromBalance
     if (this.props.ERC20TOKEN) {
       fromBalance = await this.props.contracts[this.props.ERC20TOKEN].balanceOf('' + this.state.fromAddress).call()
@@ -93,7 +64,6 @@ export default class SendToAddress extends React.Component {
     console.log('Checking can withdraw', this.state.badgeCount)
     console.log('is greater', parseFloat(this.state.badgeCount) > 0)
     return (
-      parseFloat(this.state.badgeCount) > 0 ||
       (parseFloat(this.state.amount) > 0 && parseFloat(this.state.amount) <= parseFloat(this.state.fromBalance))
     )
   }
