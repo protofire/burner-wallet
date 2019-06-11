@@ -276,6 +276,7 @@ export default class SendToAddress extends React.Component {
             <div className="sw-TextField">
               <input
                 className="sw-TextField-Text"
+                maxLength="128"
                 placeholder="Message"
                 type="text"
                 value={message}
