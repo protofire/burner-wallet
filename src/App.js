@@ -80,9 +80,9 @@ let titleImage = (
 )
 
 if (window.location.hostname.indexOf('localhost') >= 0 || window.location.hostname.indexOf('10.0.0.107') >= 0) {
-  XDAI_PROVIDER = 'http://localhost:8545'
-  WEB3_PROVIDER = 'http://localhost:8545'
   if (false) {
+    XDAI_PROVIDER = 'http://localhost:8545'
+    WEB3_PROVIDER = 'http://localhost:8545'
     ERC20NAME = false
     ERC20TOKEN = false
     ERC20IMAGE = false
@@ -449,7 +449,7 @@ class App extends Component {
     }
     setTimeout(this.poll.bind(this), 150)
     setTimeout(this.poll.bind(this), 650)
-    interval = setInterval(this.poll.bind(this), 15000)
+    interval = setInterval(this.poll.bind(this), 5000)
     intervalLong = setInterval(this.longPoll.bind(this), 45000)
     setTimeout(this.longPoll.bind(this), 150)
 
@@ -552,8 +552,10 @@ class App extends Component {
     //this happens as page load and you need to wait until
     if (this.state && this.state.hasUpdateOnce) {
       if (
-        this.state.metaAccount &&
-        this.state.metaAccount.privateKey.replace('0x', '') === this.state.possibleNewPrivateKey.replace('0x', '')
+        this.state.metaAccount
+        && this.state.metaAccount.privateKey
+        && this.state.possibleNewPrivateKey
+        && this.state.metaAccount.privateKey.replace('0x', '') === this.state.possibleNewPrivateKey.replace('0x', '')
       ) {
         this.setState({ possibleNewPrivateKey: false })
         this.changeAlert({
