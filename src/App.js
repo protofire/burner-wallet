@@ -1263,7 +1263,7 @@ class App extends Component {
                           {header}
                           <div className="sw-Header-Icons">
                             <div
-                              className="sw-Header-Icon"
+                              className="sw-Header-Icon sw-Header-Icon-toggle"
                               onClick={() => {
                                 this.toggleFullscreen()
                               }}

@@ -14,9 +14,13 @@
 }
 
 .sw-Header-Icon {
-  margin-right: 15px;
+  margin-right: 18px;
 
   &:last-child {
     margin-right: 0;
+  }
+
+  &.sw-Header-Icon-toggle {
+    margin-top: 3px;
   }
 }
