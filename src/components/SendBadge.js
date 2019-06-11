@@ -1,12 +1,11 @@
+import Badge from './Badge'
+import Blockies from 'react-blockies'
 import React from 'react'
 import Ruler from './Ruler'
-import Balance from './Balance'
 import cookie from 'react-cookies'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import Blockies from 'react-blockies'
-import { scroller } from 'react-scroll'
-import Badge from './Badge'
 import i18n from '../i18n'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { scroller } from 'react-scroll'
 
 export default class SendBadge extends React.Component {
   constructor(props) {
@@ -41,13 +40,13 @@ export default class SendBadge extends React.Component {
     this.forceUpdate()
   }
   updateState = async (key, value) => {
-    if (key == 'toAddress') {
+    if (key === 'toAddress') {
       cookie.save('sendBadgeToAddress', value, { path: '/', maxAge: 60 })
     }
     this.setState({ [key]: value }, () => {
       this.setState({ canSend: this.canSend() })
     })
-    if (key == 'toAddress') {
+    if (key === 'toAddress') {
       this.setState({ fromEns: '' })
       setTimeout(() => {
         this.scrollToBottom()
@@ -63,12 +62,10 @@ export default class SendBadge extends React.Component {
     })
   }
   canSend() {
-    //console.log("CAN SEND?",this.state.toAddress,this.state.toAddress.length)
     return this.state.toAddress && this.state.toAddress.length === 42
   }
   send = async () => {
     let { toAddress, amount } = this.state
-    let { ERC20TOKEN } = this.props
 
     if (this.state.canSend) {
       console.log('SWITCH TO LOADER VIEW...', amount)
@@ -96,14 +93,6 @@ export default class SendBadge extends React.Component {
           }
         }
       )
-      /*this.props.send(toAddress, value, 120000, txData, (result) => {
-        if(result && result.transactionHash){
-          this.props.goBack();
-          window.history.pushState({},"", "/");
-          this.props.setReceipt({to:toAddress,from:result.from,amount:parseFloat(amount),message:this.state.message,result:result})
-          this.props.changeView("receipt");
-        }
-      })*/
     }
   }
 
@@ -158,7 +147,7 @@ export default class SendBadge extends React.Component {
 
             <div>
               {' '}
-              {this.state.toAddress && this.state.toAddress.length == 42 && (
+              {this.state.toAddress && this.state.toAddress.length === 42 && (
                 <CopyToClipboard text={toAddress.toLowerCase()}>
                   <div
                     style={{ cursor: 'pointer' }}

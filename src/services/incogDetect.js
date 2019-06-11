@@ -3,7 +3,6 @@
 function retry(isDone, next) {
   var current_trial = 0,
     max_retry = 50,
-    interval = 10,
     is_timeout = false
   var id = window.setInterval(function() {
     if (isDone()) {
@@ -29,7 +28,7 @@ function isIE10OrLater(user_agent) {
   }
   // MS Edge Detection from this gist: https://gist.github.com/cou929/7973956
   var edge = /edge/.exec(ua)
-  if (edge && edge[0] == 'edge') {
+  if (edge && edge[0] === 'edge') {
     return true
   }
   return false

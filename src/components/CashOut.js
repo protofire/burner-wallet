@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Scaler } from 'dapparatus'
-let interval
 
 const OFFRAMPACCOUNT = '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
 

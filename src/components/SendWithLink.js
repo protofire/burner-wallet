@@ -1,16 +1,9 @@
 import React from 'react'
-import Ruler from './Ruler'
-import Balance from './Balance'
-import Blockies from 'react-blockies'
 import i18n from '../i18n'
 
 export default class SendWithLink extends React.Component {
   constructor(props) {
     super(props)
-    let startingAmount = 0.15
-    if (props.amount) {
-      startingAmount = props.amount
-    }
     this.state = {
       amount: props.amount,
       canSend: false
@@ -36,10 +29,6 @@ export default class SendWithLink extends React.Component {
     if (this.state.canSend) {
       amount = convertToDollar(amount)
       console.log('CONVERTED TO DOLLAR AMOUNT', amount)
-
-      //if(this.props.balance-0.0001<=amount){
-      //  this.props.changeAlert({type: 'warning', message: 'You can only send $'+Math.floor((this.props.balance-0.0001)*100)/100+' (gas costs)'})
-      //}else{
       this.props.changeView('loader')
       setTimeout(() => {
         window.scrollTo(0, 0)
@@ -53,7 +42,6 @@ export default class SendWithLink extends React.Component {
           })
         }
       })
-      //}
     } else {
       this.props.changeAlert({ type: 'warning', message: i18n.t('send_with_link.error') })
     }

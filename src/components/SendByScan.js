@@ -96,7 +96,7 @@ class SendByScan extends Component {
       if (dataAfterColon) {
         this.stopRecording()
         console.log('RETURN STATE:', this.props.returnState)
-        if (this.props.returnState && this.props.returnState.view != 'send_to_address') {
+        if (this.props.returnState && this.props.returnState.view !== 'send_to_address') {
           let returnState = this.props.parseAndCleanPath(dataAfterColon)
           this.props.returnToState(returnState)
           console.log('return state', returnState)
@@ -138,9 +138,8 @@ class SendByScan extends Component {
     this.setState({ percent: newPercent })
   }
   legacyHandleChange(e, results) {
-    //this.props.changeView('reader')
     results.forEach(result => {
-      const [e, file] = result
+      const [file] = result
       let reader = new FileReader()
       reader.onload = e => {
         console.log('')

@@ -1,10 +1,7 @@
-import React from 'react'
-import { Scaler } from 'dapparatus'
 import Blockies from 'react-blockies'
-import Ruler from './Ruler'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import React from 'react'
 import i18next from 'i18next'
-const QRCode = require('qrcode.react')
+import { Scaler } from 'dapparatus'
 
 export default class Advanced extends React.Component {
   constructor(props) {
@@ -14,16 +11,11 @@ export default class Advanced extends React.Component {
     }
   }
   render() {
-    let { buttonStyle, contracts, tx, web3, vendors } = this.props
+    let { contracts, tx, web3, vendors } = this.props
 
     let vendorBlockie = ''
     if (this.state.newVendor) {
       vendorBlockie = <Blockies seed={this.state.newVendor} scale={5} />
-    }
-
-    let adminBlockie = ''
-    if (this.state.newAdmin) {
-      adminBlockie = <Blockies seed={this.state.newAdmin} scale={5} />
     }
 
     let vendorDisplay = []
@@ -57,7 +49,6 @@ export default class Advanced extends React.Component {
             let { changingAllowed } = this.state
             changingAllowed[v] = true
             this.setState({ changingAllowed })
-            //updateVendor(address wallet, bytes32 name, bool newAllowed)
             tx(
               contracts[this.props.ERC20VENDOR].updateVendor(
                 vendors[v].vendor,
@@ -100,7 +91,6 @@ export default class Advanced extends React.Component {
             let { changingAllowed } = this.state
             changingAllowed[v] = true
             this.setState({ changingAllowed })
-            //updateVendor(address wallet, bytes32 name, bool newAllowed)
             tx(
               contracts[this.props.ERC20VENDOR].updateVendor(
                 vendors[v].vendor,
@@ -144,20 +134,6 @@ export default class Advanced extends React.Component {
         </div>
       )
     }
-
-    /*
-    let addAdminText = (
-      <span>
-        <i className="fas fa-user-astronaut"></i> {i18next.t('admin.add_admin')}
-      </span>
-    )
-    if(this.state.addingAdmin){
-      addAdminText = (
-        <span>
-          <i className="fas fa-cog fa-spin"></i> {i18next.t('admin.adding')}
-        </span>
-      )
-    }*/
 
     let addVendorText = (
       <span>
@@ -228,31 +204,3 @@ export default class Advanced extends React.Component {
     )
   }
 }
-/*
-<div className="content bridge row">
-  <div className="col-1 p-1">
-    {adminBlockie}
-  </div>
-  <div className="col-7 p-1">
-    <input type="text" className="form-control" placeholder="0x..." value={this.state.newAdmin}
-           onChange={event => this.setState({newAdmin:event.target.value})} />
-  </div>
-  <div className="col-4 p-1">
-  <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary} onClick={()=>{
-    this.setState({addingAdmin:true})
-    console.log("CONTRACTSSSSSSS",this.props.ERC20VENDOR,this.props.contracts)
-    tx(this.props.contracts[this.props.ERC20VENDOR].addAdmin(this.state.newAdmin),240000,false,0,(result)=>{
-      console.log("ADMIN ADDED",result)
-      this.setState({newAdmin:""})
-      setTimeout(()=>{
-        this.setState({addingAdmin:false})
-      },1500)
-    })
-  }}>
-    <Scaler config={{startZoomAt:600,origin:"20% 50%"}}>
-      {addAdminText}
-    </Scaler>
-  </button>
-  </div>
-</div>
- */

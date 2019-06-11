@@ -1,20 +1,12 @@
 import React from 'react'
-import Ruler from './Ruler'
-import Balance from './Balance'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import Blockies from 'react-blockies'
-import { scroller } from 'react-scroll'
 import i18n from '../i18n'
+
 const QRCode = require('qrcode.react')
 
 export default class Receive extends React.Component {
-  constructor(props) {
-    super(props)
-    let initialState = {}
-  }
   render() {
     let { changeAlert, url } = this.props
-
     let qrSize = Math.min(document.documentElement.clientWidth, 512) - 90
     let qrValue = url
 

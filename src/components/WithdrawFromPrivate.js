@@ -1,5 +1,3 @@
-import Badges from '../components/Badges'
-import Blockies from 'react-blockies'
 import ModalHeader from './ModalHeader'
 import React from 'react'
 import Web3 from 'web3'
@@ -14,7 +12,7 @@ export default class SendToAddress extends React.Component {
   constructor(props) {
     super(props)
     let initialState = {
-      amount: '', //props.amount-0.01 ?
+      amount: '',
       privateKey: props.privateKey,
       canWithdraw: false,
       fromBadges: []
@@ -54,7 +52,6 @@ export default class SendToAddress extends React.Component {
           let thisBadgeId = await this.props.contracts.Badges.tokenOfOwnerByIndex(this.state.fromAddress, b).call()
           if (!this.state.fromBadges[thisBadgeId]) {
             let thisBadgeData = await this.props.contracts.Badges.tokenURI(thisBadgeId).call()
-            //console.log("BADGE",b,thisBadgeId,thisBadgeData)
             if (!this.state.fromBadges[thisBadgeId]) {
               console.log('Getting badge data ', thisBadgeData)
               let response = axios.get(thisBadgeData).then(response => {
@@ -68,8 +65,7 @@ export default class SendToAddress extends React.Component {
             }
           }
         }
-        if (updateBadges || this.state.badgeBalance != badgeBalance) {
-          //console.log("Saving badges state...")
+        if (updateBadges || this.state.badgeBalance !== badgeBalance) {
           this.setState({ fromBadges: this.state.fromBadges, badgeCount: badgeBalance })
         }
       }
@@ -202,7 +198,7 @@ export default class SendToAddress extends React.Component {
                     let currentAmount = this.state.amount
                     if (currentAmount) currentAmount += parseFloat(costInDollars)
                     else currentAmount = parseFloat(costInDollars)
-                    if (currentAmount != this.state.amount) {
+                    if (currentAmount !== this.state.amount) {
                       this.setState({ amount: currentAmount })
                     }
                   }}

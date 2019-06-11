@@ -1,12 +1,7 @@
 import React from 'react'
 import { Scaler } from 'dapparatus'
-import Blockies from 'react-blockies'
-import Ruler from './Ruler'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import i18n from '../i18n'
-const QRCode = require('qrcode.react')
 
-let interval
 let metaReceiptTracker = {}
 
 export default class Advanced extends React.Component {
@@ -22,10 +17,10 @@ export default class Advanced extends React.Component {
     let products = []
     for (let p in this.props.products) {
       let prod = this.props.products[p]
-      if (prod.exists) {
-        //console.log(prod)
 
+      if (prod.exists) {
         let productAvailableDisplay = ''
+
         if (this.state.changingAvailable[p]) {
           productAvailableDisplay = <i className="fas fa-cog fa-spin"></i>
         } else if (prod.isAvailable) {
@@ -41,7 +36,7 @@ export default class Advanced extends React.Component {
               let changingAvailable = this.state.changingAvailable
               changingAvailable[p] = true
               this.setState({ changingAvailable })
-              //addProduct(uint256 id, bytes32 name, uint256 cost, bool isAvailable)
+
               console.log(prod.id, prod.name, prod.cost, prod.isAvailable)
               tx(
                 contracts[this.props.ERC20VENDOR].addProduct(prod.id, prod.name, prod.cost, !prod.isAvailable),
@@ -63,11 +58,6 @@ export default class Advanced extends React.Component {
             <Scaler config={{ startZoomAt: 500, origin: '50% 50%' }}>{productAvailableDisplay}</Scaler>
           </button>
         )
-
-        let available = <i className="far fa-eye"></i>
-        if (!prod.isAvailable) {
-          available = <i className="far fa-eye" style={{ opacity: 0.3 }}></i>
-        }
 
         let opacity = 1.0
         if (!prod.isAvailable) {
@@ -178,7 +168,6 @@ export default class Advanced extends React.Component {
                 if (!this.state.newProductName || !this.state.newProductAmount) {
                   this.props.changeAlert({ type: 'warning', message: 'Please enter a valid product and price.' })
                 } else {
-                  //addProduct(uint256 id, bytes32 name, uint256 cost, bool isAvailable)
                   let nextId = this.props.products.length
                   this.setState({ addingProduct: true })
                   tx(
