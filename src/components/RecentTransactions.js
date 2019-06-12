@@ -1,6 +1,7 @@
 import React from 'react'
 import ReceivedFrom from '../assets/img/received-from.png'
 import SentTo from '../assets/img/sent-to.png'
+import i18n from '../i18n'
 import { Blockie } from 'dapparatus'
 import { chevronIcon } from './ChevronIcon'
 
@@ -31,9 +32,11 @@ export default ({ dollarDisplay, address, recentTxs, block, changeView }) => {
             <img src={isReceivingFunds ? ReceivedFrom : SentTo} alt="" />
           </div>
           <div className="sw-TransactionsList-Text">
-            {isReceivingFunds ? 'Received' : 'Sent'} funds:{' '}
+            {isReceivingFunds ? i18n.t('received') : i18n.t('sent')} {i18n.t('funds')}:{' '}
             <span className="sw-TransactionsList-TextValue">{dollarDisplay(item.value)} • </span>
-            <span className="sw-TransactionsList-TextDate">{cleanTime(blockAge * 5)} ago</span>
+            <span className="sw-TransactionsList-TextDate">
+              {i18n.t('hace')} {cleanTime(blockAge * 5)} {i18n.t('ago')}
+            </span>
           </div>
           <div className="sw-TransactionsList-ItemChevron">{chevronIcon()}</div>
         </div>
@@ -43,20 +46,20 @@ export default ({ dollarDisplay, address, recentTxs, block, changeView }) => {
 
   return txns.length > 0 ? (
     <div className="sw-TransactionsList">
-      <h2 className="sw-TransactionsList-Title">Transactions</h2>
+      <h2 className="sw-TransactionsList-Title">{i18n.t('transactions')}</h2>
       {txns}
     </div>
   ) : (
     <div className="sw-TransactionsList-Empty">
-      <h2 className="sw-TransactionsList-Title">Transactions</h2>
+      <h2 className="sw-TransactionsList-Title">{i18n.t('transactions')}</h2>
       <div className="sw-TransactionsList-EmptyContent">
-        <p>No transactions.</p>
+        <p>{i18n.t('transactions_empty')}.</p>
       </div>
     </div>
   )
 }
 
-let cleanTime = s => {
+const cleanTime = s => {
   if (s < 60) {
     return s + 's'
   } else if (s / 60 < 60) {

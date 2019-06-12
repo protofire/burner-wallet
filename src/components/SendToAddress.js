@@ -146,22 +146,25 @@ export default class SendToAddress extends React.Component {
       )
 
       if (!ERC20TOKEN && parseFloat(this.props.balance) <= 0) {
-        this.props.changeAlert({ type: 'warning', message: 'No Funds.' })
+        this.props.changeAlert({ type: 'warning', message: i18n.t('no_funds') })
       } else if (!ERC20TOKEN && parseFloat(this.props.balance) - 0.0001 <= parseFloat(amount)) {
         let extraHint = ''
         if (!ERC20TOKEN && parseFloat(amount) - parseFloat(this.props.balance) <= 0.01) {
-          extraHint = '(gas costs)'
+          extraHint = `(${i18n.t('gas_costs')})`
         }
         this.props.changeAlert({
           type: 'warning',
           message:
-            'Not enough funds: ' +
+            i18n.t('not_enough_funds') +
             dollarDisplay(Math.floor((parseFloat(this.props.balance) - 0.0001) * 100) / 100) +
             ' ' +
             extraHint
         })
       } else if (ERC20TOKEN && parseFloat(this.props.balance) < parseFloat(amount)) {
-        this.props.changeAlert({ type: 'warning', message: 'Not enough tokens: $' + parseFloat(this.props.balance) })
+        this.props.changeAlert({
+          type: 'warning',
+          message: i18n.t('not_enough_tokens') + parseFloat(this.props.balance)
+        })
       } else {
         this.props.changeView('loader')
         setTimeout(() => {
@@ -248,7 +251,7 @@ export default class SendToAddress extends React.Component {
 
     return (
       <div className="sw-ModalContainer">
-        <ModalHeader closeClick={close} actionText="Send" actionClick={this.send} actionEnabled={canSend} />
+        <ModalHeader closeClick={close} actionText={i18n.t('send')} actionClick={this.send} actionEnabled={canSend} />
         <div className="sw-ModalScrollingWrapper">
           <div className="md-Send-MainToken">{defaultBalanceDisplay}</div>
           <div className="sw-FormWrapper">

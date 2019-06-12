@@ -3,6 +3,7 @@ import ModalHeader from './ModalHeader'
 import React from 'react'
 import ReceivedFrom from '../assets/img/received-from.png'
 import SentTo from '../assets/img/sent-to.png'
+import i18n from '../i18n'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { copyIcon } from './CopyIcon'
 
@@ -70,9 +71,11 @@ export default class History extends React.Component {
           </div>
           <div className="sw-TransactionsList-ItemMainInfo">
             <div className="sw-TransactionsList-Text">
-              {isReceivingFunds ? 'Received' : 'Sent'} funds:{' '}
+              {isReceivingFunds ? i18n.t('received') : i18n.t('sent')} {i18n.t('funds')}:{' '}
               <span className="sw-TransactionsList-TextValue">{messageValue} • </span>
-              <span className="sw-TransactionsList-TextDate">{cleanTime((block - item.blockNumber) * 5)} ago</span>
+              <span className="sw-TransactionsList-TextDate">
+                {i18n.t('hace')} {cleanTime((block - item.blockNumber) * 5)} {i18n.t('ago')}
+              </span>
             </div>
             {item.data ? <div className="sw-TransactionsList-ItemMessage">{item.data}</div> : null}
           </div>
@@ -82,14 +85,14 @@ export default class History extends React.Component {
 
     return (
       <div className="sw-ModalContainer">
-        <ModalHeader closeClick={close} title="Transactions History" />
+        <ModalHeader closeClick={close} title={i18n.t('tx_history')} />
         <div className="sw-ModalScrollingWrapper">
           <div className="md-History-AvatarWrapper">
             <Blockies seed={target} scale={5} />
           </div>
           <CopyToClipboard text={target}>
             <div
-              onClick={() => this.props.changeAlert({ type: 'success', message: target + ' copied to clipboard' })}
+              onClick={() => this.props.changeAlert({ type: 'success', message: target + ' ' + i18n.t('copied') })}
               className="md-History-Address"
             >
               <div className="md-History-AddressText">{target}</div>
@@ -103,7 +106,7 @@ export default class History extends React.Component {
   }
 }
 
-let cleanTime = s => {
+const cleanTime = s => {
   if (s < 60) {
     return s + 's'
   } else if (s / 60 < 60) {

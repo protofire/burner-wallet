@@ -5,7 +5,7 @@ import ModalHeader from './ModalHeader'
 export default ({ burnWallet, close, defaultBalanceDisplay }) => {
   return (
     <div className="sw-ModalContainer">
-      <ModalHeader closeClick={close} actionText="Burn Wallet" actionClick={burnWallet} />
+      <ModalHeader closeClick={close} actionText={i18n.t('b_wallet')} actionClick={burnWallet} />
       <div className="sw-ModalScrollingWrapper">
         <div className="md-Burn-MainToken">{defaultBalanceDisplay}</div>
         <div className="md-Burn-Text">{i18n.t('burn_wallet.burn_private_key_question')}</div>
