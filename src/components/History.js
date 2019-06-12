@@ -1,10 +1,10 @@
-import ModalHeader from './ModalHeader'
 import Blockies from 'react-blockies'
+import ModalHeader from './ModalHeader'
 import React from 'react'
+import ReceivedFrom from '../assets/img/received-from.png'
+import SentTo from '../assets/img/sent-to.png'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { copyIcon } from './CopyIcon'
-import SentTo from '../assets/img/sent-to.png'
-import ReceivedFrom from '../assets/img/received-from.png'
 
 let interval
 
@@ -96,7 +96,7 @@ export default class History extends React.Component {
               <span className="md-History-AddressCopy">{copyIcon()}</span>
             </div>
           </CopyToClipboard>
-          <div className="sw-TransactionsList">{txns}</div>
+          <div className="sw-TransactionsList">{txns.reverse()}</div>
         </div>
       </div>
     )

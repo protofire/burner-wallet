@@ -1,8 +1,8 @@
 import React from 'react'
+import ReceivedFrom from '../assets/img/received-from.png'
+import SentTo from '../assets/img/sent-to.png'
 import { Blockie } from 'dapparatus'
 import { chevronIcon } from './ChevronIcon'
-import SentTo from '../assets/img/sent-to.png'
-import ReceivedFrom from '../assets/img/received-from.png'
 
 export default ({ dollarDisplay, address, recentTxs, block, changeView }) => {
   let txns = []
