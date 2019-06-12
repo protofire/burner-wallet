@@ -14,7 +14,7 @@ export default class Receive extends React.Component {
 
     return (
       <div className="sw-ModalContainer">
-        <ModalHeader closeClick={close} title="Receive" />
+        <ModalHeader closeClick={close} title={i18n.t('receive_title')} />
         <div className="sw-ModalScrollingWrapper">
           <CopyToClipboard
             text={address}
@@ -38,7 +38,7 @@ export default class Receive extends React.Component {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View on Blockscout
+              {i18n.t('blockscout_view')}
             </a>
           </div>
         </div>

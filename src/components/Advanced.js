@@ -49,7 +49,7 @@ export default class Advanced extends React.Component {
           autoCorrect="off"
           className="sw-TextField-Text"
           onChange={event => this.setState({ newPrivateKey: event.target.value })}
-          placeholder="private key"
+          placeholder={i18n.t('pk')}
           type="text"
           value={this.state.newPrivateKey}
         />
@@ -70,7 +70,7 @@ export default class Advanced extends React.Component {
               }
               setPossibleNewPrivateKey(possibleNewPrivateKey)
             } else {
-              changeAlert({ type: 'warning', message: 'Invalid private key.' })
+              changeAlert({ type: 'warning', message: i18n.t('pk_invalid') })
             }
           }}
           disabled={
@@ -94,7 +94,7 @@ export default class Advanced extends React.Component {
           autoCorrect="off"
           className="sw-TextField-Text"
           onChange={event => this.setState({ newSeedPhrase: event.target.value })}
-          placeholder="seed phrase"
+          placeholder={i18n.t('seed_phrase')}
           type="text"
           value={this.state.newSeedPhrase}
         />
@@ -102,7 +102,7 @@ export default class Advanced extends React.Component {
           className="sw-TextField-Icon"
           onClick={() => {
             if (!this.state.newSeedPhrase) {
-              changeAlert({ type: 'warning', message: 'Invalid seed phrase.' })
+              changeAlert({ type: 'warning', message: i18n.t('seed_phrase_error') })
             } else {
               import('ethereum-mnemonic-privatekey-utils').then(pkutils => {
                 const newPrivateKey = pkutils.getPrivateKeyFromMnemonic(this.state.newSeedPhrase)
@@ -120,7 +120,7 @@ export default class Advanced extends React.Component {
 
     return (
       <div className="sw-ModalContainer">
-        <ModalHeader closeClick={close} title="Advanced" />
+        <ModalHeader closeClick={close} title={i18n.t('advance')} />
         <div className="sw-ModalScrollingWrapper">
           <div className="sw-List">
             {privateKey && !isVendor && (
@@ -131,15 +131,15 @@ export default class Advanced extends React.Component {
                     this.setState({ privateKeyQr: !this.state.privateKeyQr })
                   }}
                 >
-                  <span className="sw-List-Text">Private Key</span>
+                  <span className="sw-List-Text">{i18n.t('pk')}</span>
                   <span className="sw-List-ItemChevron">{chevronIcon()}</span>
                 </div>
                 {this.state.privateKeyQr ? (
                   <CopyToClipboard text={privateKey}>
-                    <div onClick={() => changeAlert({ type: 'success', message: 'Private Key copied to clipboard' })}>
+                    <div onClick={() => changeAlert({ type: 'success', message: i18n.t('pk_copied') })}>
                       <div className="ad-Advanced-QR">{privateKeyQrDisplay}</div>
                       <div className="ad-Advanced-Address">
-                        <span className="ad-Advanced-AddressText">{i18n.t('copy')}</span>
+                        <span className="ad-Advanced-AddressText">{i18n.t('copy_pk')}</span>
                         <span className="ad-Advanced-AddressCopy">{copyIcon()}</span>
                       </div>
                     </div>
@@ -154,7 +154,7 @@ export default class Advanced extends React.Component {
                   changeView('burn-wallet')
                 }}
               >
-                <span className="sw-List-Text sw-List-Text-danger">Burn Wallet</span>
+                <span className="sw-List-Text sw-List-Text-danger">{i18n.t('b_wallet')}</span>
                 <span className="sw-List-ItemChevron">{chevronIcon()}</span>
               </div>
             )}
@@ -165,7 +165,7 @@ export default class Advanced extends React.Component {
                 toggleImportAccount()
               }}
             >
-              <span className="sw-List-Text">Import Account</span>
+              <span className="sw-List-Text">{i18n.t('import_account')}</span>
               <span className="sw-List-ItemChevron">{chevronIcon()}</span>
             </div>
             {this.state.showImportAccount ? (
@@ -176,11 +176,15 @@ export default class Advanced extends React.Component {
             ) : null}
             <a
               className="sw-List-Item"
-              href="https://medium.com/gitcoin/ethereum-in-emerging-economies-b235f8dac2f2"
+              href="https://github.com/protofire/burner-wallet/"
               rel="noopener noreferrer"
               target="_blank"
             >
-              <span className="sw-List-Text">About</span>
+              <span className="sw-List-Text">{i18n.t('source_code')}</span>
+              <span className="sw-List-ItemChevron">{chevronIcon()}</span>
+            </a>
+            <a className="sw-List-Item" href="http://protofire.io/" rel="noopener noreferrer" target="_blank">
+              <span className="sw-List-Text">{i18n.t('about')}</span>
               <span className="sw-List-ItemChevron">{chevronIcon()}</span>
             </a>
           </div>

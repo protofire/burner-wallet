@@ -1,11 +1,27 @@
 {
   "en": {
+    "source_code": "Source Code",
+    "tx_history": "Transactions History",
+    "copied": "copied to clipboard",
+    "no_funds": "No funds",
+    "gas_costs": "gas costs",
+    "not_enough_funds": "Not enough funds: ",
+    "not_enough_tokens": "Not enough tokens: $",
+    "blockscout_view": "View on Blockscout",
+    "hace": "",
+    "ago": "ago",
+    "sent": "Sent",
+    "received": "Received",
+    "funds": "funds",
+    "transactions": "Transactions",
+    "transactions_empty": "No transactions",
     "app_name": "Burner",
     "about": "About",
     "code": "Code",
     "burn": "Burn PK",
     "show": "Show PK",
     "copy": "Copy PK",
+    "copy_pk": "Copy Private Key",
     "create": "Create",
     "receive_title": "Receive",
     "receipt_title": "Receipt",
@@ -24,6 +40,13 @@
     "request": "Request",
     "vendors": "Vendors",
     "sell": "Sell",
+    "pk": "Private Key",
+    "pk_invalid": "Invalid private key",
+    "pk_copied": "Private key copied to clipboard",
+    "b_wallet": "Burn Wallet",
+    "import_account": "Import Account",
+    "seed_phrase": "Seed Phrase",
+    "seed_phrase_error": "Invalid Seed Phrase",
     "main_card": {
       "receive": "Receive",
       "send": "Send",
@@ -86,8 +109,8 @@
     },
     "request_funds": {
       "item_message": "Item or Message",
-      "button": "Request",
-      "amount": "Request Amount"
+      "button": "Sell",
+      "amount": "Value"
     },
     "admin": {
       "add_admin": "Add Admin",

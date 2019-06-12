@@ -1,11 +1,27 @@
 {
   "es": {
+    "source_code": "Código Fuente",
+    "tx_history": "Historial de Transacciones",
+    "copied": "se copió al portapapeles",
+    "no_funds": "Sin fondos",
+    "gas_costs": "costo del gas",
+    "not_enough_funds": "Fondos insuficientes: ",
+    "not_enough_tokens": "Tokens insuficientes: $",
+    "blockscout_view": "Ver en Blockscout",
+    "hace": "Hace",
+    "ago": "",
+    "sent": "Envió",
+    "received": "Recibió",
+    "funds": "fondos",
+    "transactions": "Transacciones",
+    "transactions_empty": "No hay transacciones",
     "app_name": "Burner",
     "about": "Acerca de",
     "code": "Código",
     "burn": "Quemar",
     "show": "Mostrar",
     "create": "Crear",
+    "copy_pk": "Copiar Clave Privada",
     "receive_title": "Recibir",
     "send_to_address_title": "Enviar a la dirección",
     "advance": "Avanzado",
@@ -22,6 +38,13 @@
     "request": "Solicitar",
     "vendors": "Vendedores",
     "sell": "Vender",
+    "pk": "Clave Privada",
+    "pk_invalid": "Clave privada inválida",
+    "pk_copied": "Clave privada copiada al portapapeles",
+    "b_wallet": "Quemar Billetera",
+    "import_account": "Importar Cuenta",
+    "seed_phrase": "Seed Phrase",
+    "seed_phrase_error": "Seed Phrase Inválida",
     "main_card": {
       "receive": "Recibir",
       "send": "Enviar",
@@ -84,8 +107,8 @@
     },
     "request_funds": {
       "item_message": "Artículo o Mensaje",
-      "button": "Solicitar",
-      "amount": "Solicitar Cantidad"
+      "button": "Vender",
+      "amount": "Valor"
     },
     "admin": {
       "add_admin": "Agregar Administrador",
