@@ -2,7 +2,7 @@
 
 .sw-ModalScrollingWrapper {
   height: calc(100% - #{ $modal-header-height });
-  overflow: scroll;
+  overflow: auto;
   padding-bottom: $main-wrapper-padding;
   padding-left: $main-wrapper-padding;
   padding-right: $main-wrapper-padding;

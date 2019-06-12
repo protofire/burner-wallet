@@ -2,5 +2,5 @@
 
 .sw-ScrollingWrapper {
     height: calc(100% - #{ $footer-height });
-    overflow: scroll;
+    overflow: auto;
 }
