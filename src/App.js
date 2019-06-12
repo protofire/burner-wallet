@@ -43,7 +43,7 @@ import incogDetect from './services/incogDetect.js'
 import mainToken from './assets/img/image-3@3x.jpg'
 import namehash from 'eth-ens-namehash'
 import protofire from './assets/img/protofire.png'
-import xdai from './assets/img/xdai.jpg'
+import xdai from './assets/img/gas.png'
 import { ContractLoader, Dapparatus, Transactions, Gas, Events } from 'dapparatus'
 import { I18nextProvider } from 'react-i18next'
 import { exitFullscreenIcon } from './components/ExitFullscreenIcon'
@@ -1279,8 +1279,8 @@ class App extends Component {
                             amount={this.state.xdaiBalance}
                             decimalPlaces={5}
                             icon={xdai}
-                            selected={'xDai'}
-                            text={'xDai'}
+                            selected={'Gas'}
+                            text={'Gas'}
                           />
                           <Balance amount={this.state.daiBalance} icon={dai} selected={selected} text={'DAI'} />
                           <Balance
