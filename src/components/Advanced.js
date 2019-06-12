@@ -176,10 +176,14 @@ export default class Advanced extends React.Component {
             ) : null}
             <a
               className="sw-List-Item"
-              href="https://medium.com/gitcoin/ethereum-in-emerging-economies-b235f8dac2f2"
+              href="https://github.com/protofire/burner-wallet/"
               rel="noopener noreferrer"
               target="_blank"
             >
+              <span className="sw-List-Text">{i18n.t('source_code')}</span>
+              <span className="sw-List-ItemChevron">{chevronIcon()}</span>
+            </a>
+            <a className="sw-List-Item" href="http://protofire.io/" rel="noopener noreferrer" target="_blank">
               <span className="sw-List-Text">{i18n.t('about')}</span>
               <span className="sw-List-ItemChevron">{chevronIcon()}</span>
             </a>
