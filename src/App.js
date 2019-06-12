@@ -193,10 +193,10 @@ let buttonStyle = {
 
 const BLOCKS_TO_PARSE_PER_BLOCKTIME = 32
 const MAX_BLOCK_TO_LOOK_BACK = 512 //don't look back more than 512 blocks
+const dollarSymbol = '$'
+const dollarConversion = 1.0
 
 let metaReceiptTracker = {}
-let dollarSymbol = '$'
-let dollarConversion = 1.0
 
 let convertToDollar = amount => {
   return parseFloat(amount) / dollarConversion
@@ -552,10 +552,10 @@ class App extends Component {
     //this happens as page load and you need to wait until
     if (this.state && this.state.hasUpdateOnce) {
       if (
-        this.state.metaAccount
-        && this.state.metaAccount.privateKey
-        && this.state.possibleNewPrivateKey
-        && this.state.metaAccount.privateKey.replace('0x', '') === this.state.possibleNewPrivateKey.replace('0x', '')
+        this.state.metaAccount &&
+        this.state.metaAccount.privateKey &&
+        this.state.possibleNewPrivateKey &&
+        this.state.metaAccount.privateKey.replace('0x', '') === this.state.possibleNewPrivateKey.replace('0x', '')
       ) {
         this.setState({ possibleNewPrivateKey: false })
         this.changeAlert({
@@ -1234,26 +1234,17 @@ class App extends Component {
 
               let selected = 'xDai'
               let defaultBalanceDisplay = (
-                <MainToken
-                  icon={xdai}
-                  selected={false}
-                  text={'xdai'}
-                  amount={this.state.xdaiBalance}
-                  address={account}
-                  dollarDisplay={dollarDisplay}
-                />
+                <MainToken amount={this.state.xdaiBalance} dollarDisplay={dollarDisplay} icon={xdai} text={'xdai'} />
               )
 
               if (ERC20TOKEN) {
                 selected = ERC20NAME
                 defaultBalanceDisplay = (
                   <MainToken
-                    icon={mainToken}
-                    selected={selected}
-                    text={ERC20NAME}
                     amount={this.state.balance}
-                    address={account}
                     dollarDisplay={dollarDisplay}
+                    icon={mainToken}
+                    text={'Pesos'}
                   />
                 )
               }
@@ -1285,28 +1276,18 @@ class App extends Component {
                         {defaultBalanceDisplay}
                         <div className="sw-BalanceItemsRow">
                           <Balance
+                            amount={this.state.xdaiBalance}
+                            decimalPlaces={5}
                             icon={xdai}
                             selected={'xDai'}
                             text={'xDai'}
-                            amount={this.state.xdaiBalance}
-                            address={account}
-                            dollarDisplay={dollarDisplay}
                           />
+                          <Balance amount={this.state.daiBalance} icon={dai} selected={selected} text={'DAI'} />
                           <Balance
-                            icon={dai}
-                            selected={selected}
-                            text={'DAI'}
-                            amount={this.state.daiBalance}
-                            address={account}
-                            dollarDisplay={dollarDisplay}
-                          />
-                          <Balance
+                            amount={parseFloat(this.state.ethBalance) * parseFloat(this.state.ethprice)}
                             icon={eth}
                             selected={selected}
                             text={'ETH'}
-                            amount={parseFloat(this.state.ethBalance) * parseFloat(this.state.ethprice)}
-                            address={account}
-                            dollarDisplay={dollarDisplay}
                           />
                         </div>
                         <RecentTransactions
